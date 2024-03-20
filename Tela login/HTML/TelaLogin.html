@@ -1,51 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Air totem</title>
+    <title>Login | Air Totem</title>
     <link rel="stylesheet" href="../CSS/login.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="icon" href="image-removebg-preview.png">
+    <link rel="shortcut icon" href="../../Tela inicial/Imagens/IconAirTotem.ico.jpg">
 </head>
+
 <body>
-    <div class="header">
-        <div class="container">
-            <!-- <a href=""><img src="image-removebg-preview.png" alt=""></a> -->
-            <div class="navbar">
-                <ul>
-                    <li class="navbarLogin"><a href="">Login</a></li>
-                    <li class="navbarHome"><a href="">Home</a></li>
-                    <li class="navbarContato"><a href="">Contato</a></li>
-                </ul>
-            </div>
+    <h2><a href="../../Tela inicial/Tela-inicial.html">Home</a></h2>
+    <h1>Air Totem</h1>
+    <form>
+        <h2>Login</h2>
+        <div class="row">
+            <label for="email">Email</label>
+            <input type="email" name="email" autocomplete="off" placeholder="email@example.com">
         </div>
-    </div>
-
-    <div class="containerMid">
-
-        <div class="side1">
-            <img src="../Images/title.svg" alt="">
-            <div class="container-boxLogin">
-                <div class="entradas">
-                <p class="textLogin">
-                    Login
-                </p>
-                <input type="text" name="" id="id_inputLogin" class="inputLogin">
-                <p class="textLogin">Senha</p>
-                <input type="text" name="" id="id_inputPassword" class="inputLogin">
-                <button onclick="entrar()" class="buttonLogin">Entrar</button>
-            </div>
-            
-
-            </div>
-
+        <div class="row">
+            <label for="password">Senha</label>
+            <input type="password" name="password">
         </div>
-        
-        <img src="../Images/fotoTela.svg" class="fotoTela" alt="">
-       
-    </div>
+        <button type="submit">Entrar</button>
+    </form>
+
 </body>
+
 </html>

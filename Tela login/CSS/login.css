@@ -1,136 +1,122 @@
-*{
-    margin: 0;
-    padding:0;
-}
-:root{
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
-    --font-texto: "Inter", sans-serif;
-    --color-background:#E9EBF0; 
-
-}
-
-
-.header{
-
-    width: 100%;
-    background-color: #E9EBF0;
-    height: 71px;
-    text-align: justify;
-    display: flex;
-    justify-content: center;
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: url("../Images/aeroporto.jpg") no-repeat;
+  background-size: cover;
+  color: #3a3c47;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
-.container{
-
-    width: 95%;
-    height: 72px;
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    
+h1 {
+  margin-top: 50px;
+  font-size: 120px;
+  color: white;
 }
 
-.navbar ul{
-
-    display: flex;
-    justify-content: end;
-
-}
-.navbar li{
-    display: inline;
-    padding: 32px;
-}
-.navbar a{
-
-    text-decoration: none;
-    font-family:var(--font-texto);
-    color: #7A8699;
+h2 a{
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
 }
 
-.navbar a:hover{
-    color: black;
-    font-weight: bold;
+form h2 {
+  font-size: 25px;
+  font-weight: bolder;
+  color: rgb(94, 94, 94);
+
+  display: flex;
+  justify-content: center;
 }
 
-.containerMid{
-
-    width: 100%;
-    height: 100%;
-    display: flex;
-    
+form {
+  background: #fff;
+  max-width: 360px;
+  width: 100%;
+  padding: 58px 44px;
+  border: 1px solid #e1e2f0;
+  border-radius: 10px;
+  box-shadow: 0 0 5px 0 rgba(42, 45, 48, 0.12);
+  transition: all 0.3s ease;
+  margin-bottom: 160px;
 }
 
-.containerMid .side1{
-    width: 50%;
-    height: 594px;
-    background-color: var(--color-background);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 40px;
-    
-    
+.row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
 }
 
-.containerMid .side1 .container-boxLogin{
-    width: 333px;
-    height: 377px;
-    background-color: #FFFFFF;
-    border-radius: 16px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-
-}
-.side1 .entradas{
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: start;
-    gap: 23px;
-
+.row label {
+  font-size: 13px;
+  color: #8086a9;
 }
 
-.entradas .textLogin{
-    font-family: var(--font-texto);
-    color: #141515;
-    font-size: 16px;
+.row input {
+  flex: 1;
+  padding: 13px;
+  border: 1px solid #d6d8e6;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: all 0.2s ease-out;
 }
 
-.entradas .inputLogin{
-    border-radius: 24px;
-    width: Fixed (269px);
-    height: Hug (25px);
-    background-color: #DADEE5;
-    border: 0px;
-    padding-left: 10px;
-    font-weight: bold;
+.row input:focus {
+  outline: none;
+  box-shadow: inset 2px 2px 5px 0 rgba(42, 45, 48, 0.12);
 }
 
-
-
-.buttonLogin{
-
-    width: 86px;
-    height: 28px;
-    border-radius: 16px;
-    color: #1F6795;
-    font-size: 14px;
-    font-family: var(--font-texto);
-    font-weight: bold;
-    line-height: 16px;
-    text-align: center;
-    cursor: pointer;
-    background-color: #1F67951A;
-    
-    border: 0px;
+.row input::placeholder {
+  color: #C8CDDF;
 }
 
-.fotoTela{
-    /* background-size: cover; */
-    /* max-height: 594px; */
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background: #4b4c4d;
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+  margin-top: 15px;
+  transition: background 0.2s ease-out;
+  display: flex;
+  justify-content: center;
 }
 
+button:hover {
+  background: #080911;
+}
+
+@media(max-width: 458px) {
+
+  body {
+    margin: 0 18px;
+  }
+  
+  form {
+    background: #f9faff;
+    border: none;
+    box-shadow: none;
+    padding: 20px 20px;
+  }
+
+  h1{
+    font-size: 48px;
+  }
+
+  input{
+    margin: 10px;
+  }
+
+  label{
+    margin: 10px;
+  }
+}
