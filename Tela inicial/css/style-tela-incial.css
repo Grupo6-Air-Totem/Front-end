@@ -407,7 +407,16 @@ section h2 {
     margin-bottom: 32px;
     /*    padding-bottom: 24px;*/
 }
+#locate .sobrenos{
+    margin-bottom: 100px;
+}
+#locate .sobrenos p{
+    margin-bottom: 20px;
+}
 
+#locate .sobrenos h1{
+    margin-bottom: 30px;
+}
 
 .card-wide {
     flex-direction: row;
@@ -466,7 +475,7 @@ section h2 {
     justify-content: center;
     align-items: center;
     padding: 80px 0;
-    border-radius: 12px;
+    border-radius: 25px;
     box-shadow: var(--card-shadow);
     transition: var(--hover-timing);
     cursor: pointer;
@@ -578,6 +587,10 @@ footer ul li {
         margin: 24px 0 0;
     }
 
+    .sobrenos p{
+        padding: 0 40px;
+    }
+
     nav {
         position: relative;
     }
@@ -667,6 +680,10 @@ footer ul li {
 
     }
 
+    .sobrenos p{
+        padding: 0 40px;
+    }
+
     nav ul.navigation-menu {
         position: absolute;
         top: 64px;
@@ -739,6 +756,10 @@ footer ul li {
         grid-gap: 24px;
     }
 
+    .sobrenos p{
+        padding: 0 40px;
+    }
+
     ul.subnav {
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -797,6 +818,10 @@ footer ul li {
         aspect-ratio: 3/1;
         background-size: 30%;
         background-position: 90% 60%;
+    }
+
+    .sobrenos p{
+        padding: 0 40px;
     }
 
     .shop-pets,
