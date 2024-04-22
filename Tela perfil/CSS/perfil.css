@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+/* @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 :root{
 
     --fontFamily-01: 'Poppins', sans-serif;
-}
+} */
 *{
 
 padding: 0;
@@ -19,6 +19,7 @@ background-color: #E9EBF0;
 
 .div-telaPerfil{
 
-    display: flex;
-    /* flex-direction: row-reverse; */
+    display: grid;
+    grid-template-columns: 340px 2fr;
+    
 }
