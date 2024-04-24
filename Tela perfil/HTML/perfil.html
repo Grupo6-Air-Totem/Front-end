@@ -43,6 +43,7 @@
             <div class="div-menu-dadosLateral">
                 <li><img src="../Images/Control Panel.svg" alt=""><a href="#">Dashboard</a></li>
                 <li><img src="../Images/Settings.svg" alt=""><a href="#">Totens</a></li>
+                <li><img src="../Images/Settings.svg" alt=""><a href="#">Novo usuário</a></li>
             </div>
             <!-- <br><br>
             <hr > -->
@@ -51,19 +52,19 @@
         <header>
             <nav>
                 <ul class="header-cabecalho">
-                    <li><a href="#">DashBoard</a> 
+                    <li><a id="dashboardHeader" href="#" onclick="dashboardHeader()">DashBoard</a> 
                     </li>
                     <li>
-                        <a href="#">Totem</a>
+                        <a id= "totemHeader" href="#" onclick="totemHeader()">Totem</a>
                     </li>
                     <li class="entrar">
-                        <a href="#">Setores</a>
+                        <a id="setoresHeader" href="#" onclick="setoresHeader()">Setores</a>
                     </li>
                    
                 </ul>
             </nav>
         </header>
-        <div class="div-dashboard">
+        <div class="div-dashboard" id="id_divDash" style="display: block;">
             <h1>Totem</h1>
             <div class="div-cardDashKPI">
                 <div class="card" style="width: 660px; height: 110px;">
@@ -145,6 +146,74 @@
      
         
         </div>
+        <div class="div-setores" id="id_divSetores" style="display: none;">
+          <div class="contentSetores">
+          <h1>Setores</h1>
+            <div class="mb-3">
+              <select id="disabledSelect" class="form-select" style="width: 70%;">
+                <option value="1">Terminal 1</option>
+                <option value="2">Terminal 2</option>
+                <option value="3">Terminal 3</option>
+                <option value="4">Terminal 4</option>
+                <option value="5">Terminal 5</option>
+              </select>
+              <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Status
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Manutenção</a></li>
+                  <li><a class="dropdown-item" href="#">Operando</a></li>
+                  <li><a class="dropdown-item" href="#">Parado</a></li>
+                </ul>
+              </div>
+          </div>
+            <table>
+            <tr>
+              <th>ID_TOTEM</th>
+              <th>Status</th>
+              <th>Terminal</th>
+              <th>Responsável</th>
+            </tr>
+            <tr>
+              <td><a href="">0001</a></td>
+              <td>Manutenção</td>
+              <td>1</td>
+              <td>Ester</td>
+            </tr>
+            <tr>
+              <td><a href="">0002</a></td>
+              <td>Operando</td>
+              <td>1</td>
+              <td>Ester</td>
+            </tr>
+            <tr>
+              <td><a href="">0003</a></td>
+              <td>Operando</td>
+              <td>1</td>
+              <td>Ester</td>
+            </tr>
+            <tr>
+              <td><a href="">0004</a></td>
+              <td>Operando</td>
+              <td>1</td>
+              <td>Ester</td>
+            </tr>
+            <tr>
+              <td><a href="">0005</a></td>
+              <td>Operando</td>
+              <td>1</td>
+              <td>Ester</td>
+            </tr>
+            <tr>
+              <td><a href="">0006</a></td>
+              <td>Manutenção</td>
+              <td>1</td>
+              <td>Ester</td>
+            </tr>
+            </table>
+          </div>
+        </div>
     </div>
     
     </div>
@@ -161,6 +230,62 @@
     google.charts.setOnLoadCallback(drawTableProcess);
     google.charts.setOnLoadCallback(drawChartNetwork);
     google.charts.setOnLoadCallback(drawChartMemory);
+
+  function totemHeader(){
+
+    var aTotem = document.getElementById("totemHeader");
+    var aDash = document.getElementById("dashboardHeader");
+    var aSetores = document.getElementById("setoresHeader");
+    var divDash = document.getElementById("id_divDash");
+    var divSetores = document.getElementById("id_divSetores");
+
+    aDash.style.fontWeight = '600';
+    aDash.style.color = '#7A8699';
+    aTotem.style.fontWeight = 'bold';
+    aTotem.style.color = 'black';
+    aSetores.style.color = '#7A8699';
+    aSetores.style.fontWeight = '600';
+    divDash.style.display = "block";
+    divSetores.style.display = "none";
+    
+  }
+
+  function setoresHeader(){
+    var aDash = document.getElementById("dashboardHeader");
+    var aTotem = document.getElementById("totemHeader");
+    var aSetores = document.getElementById("setoresHeader");
+    var divDash = document.getElementById("id_divDash");
+    var divSetores = document.getElementById("id_divSetores");
+
+    aTotem.style.fontWeight = '600';
+    aTotem.style.color = '#7A8699';
+    aDash.style.fontWeight = '600';
+    aDash.style.color = '#7A8699';
+    aSetores.style.fontWeight = 'bold';
+    aSetores.style.color = 'black';
+    divDash.style.display = "none";
+    divSetores.style.display="block";
+
+
+
+  }
+
+  function dashboardHeader(){
+    var aDash = document.getElementById("dashboardHeader");
+    var aTotem = document.getElementById("totemHeader");
+    var aSetores = document.getElementById("setoresHeader");
+    var divDash = document.getElementById("id_divDash");
+    var divSetores = document.getElementById("id_divSetores");
+
+    aTotem.style.fontWeight = '600';
+    aTotem.style.color = '#7A8699';
+    aDash.style.fontWeight = 'bold';
+    aDash.style.color = 'black';
+    aSetores.style.color = '#7A8699';
+    aSetores.style.fontWeight = '600';
+    divDash.style.display = "none";
+    divSetores.style.display = "none";
+  }
 
     function CPU(){
 

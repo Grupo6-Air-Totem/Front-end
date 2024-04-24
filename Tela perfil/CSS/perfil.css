@@ -117,3 +117,37 @@ background-color: #E9EBF0;
     background-color: black;
     border-radius: 20px;
 }
+.div-setores{
+
+    padding:15px;
+    background-color: #E9EBF0;
+
+}
+.contentSetores{
+
+    gap: 200px;
+
+}
+.mb-3{
+
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid black;
+  }  
+  td, th {
+    border: 1px solid black;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: white;
+  }
