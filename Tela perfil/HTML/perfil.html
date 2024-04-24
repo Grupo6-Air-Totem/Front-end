@@ -64,7 +64,7 @@
                 </ul>
             </nav>
         </header>
-        <div class="div-dashboard" id="id_divDash" style="display: block;">
+        <div class="div-dashboard" id="id_divDash" style="display: none;">
             <h1>Totem</h1>
             <div class="div-cardDashKPI">
                 <div class="card" style="width: 660px; height: 110px;">
@@ -214,6 +214,61 @@
             </table>
           </div>
         </div>
+        <div class="div-dashGeral" id= "id-dashGeral" style="display: block;">
+            <h1>Dashboard geral</h1>
+            <p>Hardware</p>
+            <div class="div-dashGeral-content">
+            <div class="div-cardsKPI">
+              <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">Totem ativos</h5>
+                  <p class="card-text" style="color: #3478C7A1;">320</p>
+                </div>
+              </div>
+              <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">Totem inativos</h5>
+                  <p class="card-text" style="color: #3478C7A1;">320</p>
+                </div>
+              </div>
+              <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h5 class="card-title">Em manutenção</h5>
+                  <p class="card-text" style="color: #3478C7A1;">320</p>
+                </div>
+              </div>
+          </div>
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Terminal</th>
+                <th scope="col">Quantidade de totens</th>
+                <th scope="col">Responsável</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>10</td>
+                <td>Ester</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>15</td>
+                <td>Caue</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>12</td>
+                <td>Ryan</td>
+              </tr>
+            </tbody>
+          </table>
+
+
+          </div>
+        </div>
     </div>
     
     </div>
@@ -223,6 +278,7 @@
 </html>
 
 <script>
+
     google.charts.load('current', {'packages':['corechart']});
     google.charts.load('current', {'packages':['table']});
     google.charts.setOnLoadCallback(drawChartCPU);
@@ -238,6 +294,7 @@
     var aSetores = document.getElementById("setoresHeader");
     var divDash = document.getElementById("id_divDash");
     var divSetores = document.getElementById("id_divSetores");
+    var divDashGeral = document.getElementById("id-dashGeral");
 
     aDash.style.fontWeight = '600';
     aDash.style.color = '#7A8699';
@@ -247,7 +304,8 @@
     aSetores.style.fontWeight = '600';
     divDash.style.display = "block";
     divSetores.style.display = "none";
-    
+    divDashGeral.style.display = "none";
+
   }
 
   function setoresHeader(){
@@ -256,6 +314,8 @@
     var aSetores = document.getElementById("setoresHeader");
     var divDash = document.getElementById("id_divDash");
     var divSetores = document.getElementById("id_divSetores");
+    var divDashGeral = document.getElementById("id-dashGeral");
+
 
     aTotem.style.fontWeight = '600';
     aTotem.style.color = '#7A8699';
@@ -265,8 +325,7 @@
     aSetores.style.color = 'black';
     divDash.style.display = "none";
     divSetores.style.display="block";
-
-
+    divDashGeral.style.display = "none";
 
   }
 
@@ -276,6 +335,7 @@
     var aSetores = document.getElementById("setoresHeader");
     var divDash = document.getElementById("id_divDash");
     var divSetores = document.getElementById("id_divSetores");
+    var divDashGeral = document.getElementById("id-dashGeral");
 
     aTotem.style.fontWeight = '600';
     aTotem.style.color = '#7A8699';
@@ -285,6 +345,7 @@
     aSetores.style.fontWeight = '600';
     divDash.style.display = "none";
     divSetores.style.display = "none";
+    divDashGeral.style.display = "block";
   }
 
     function CPU(){

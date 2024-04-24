@@ -151,3 +151,24 @@ table {
   tr:nth-child(even) {
     background-color: white;
   }
+
+  .div-dashGeral{
+
+    padding: 15px;
+    background-color: #E9EBF0;
+
+  }
+
+.div-cardsKPI{
+
+display: flex;
+gap: 20px;
+
+}
+
+.div-dashGeral-content{
+
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
