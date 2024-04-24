@@ -23,3 +23,97 @@ background-color: #E9EBF0;
     grid-template-columns: 340px 2fr;
     
 }
+.div-dashboard{
+
+    padding: 15px;
+    background-color:#E9EBF0 ;
+}
+
+#title-Dash{
+
+    text-align: center;
+
+}
+
+.textCardBody-KPI{
+    display: flex;
+    flex-direction: column;
+    
+}
+.card-bodyKPI{
+
+    display: flex;
+    padding: 10px;
+    gap: 70px;
+
+}
+.card-bodyKPI p{
+
+    font-size: 14px;
+}
+
+.div-cardDashKPI{
+
+    display: flex;
+     gap: 20px;
+
+}
+
+.card{
+
+    border:1px solid #E9EBF0;
+
+}
+.card-body{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+.div-dashGraphics{
+
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    
+}
+.div-dashGraphics-left{
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+
+}
+.div-dashGraphics-right{
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 15px;
+
+}
+
+.textCardBody{
+
+    display: flex;
+    flex-direction:row;
+    justify-content: space-evenly;
+    width: 660px;
+    gap: 150px;
+
+
+}
+
+.textCardBody p{
+    font-size: 12px;
+    font-weight: 700;
+}
+
+#bar_chartEnable{
+
+    background-color: black;
+    border-radius: 20px;
+}
