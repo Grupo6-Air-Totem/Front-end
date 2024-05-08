@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: url("../assets/imgs/aeroporto.jpg") no-repeat;
+  background-size: cover;
+  color: #3a3c47;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin-top: 50px;
+  font-size: 120px;
+  color: white;
+}
+
+h2 a{
+  color: white;
+  text-decoration: none;
+  font-size: 20px;
+}
+
+form h2 {
+  font-size: 25px;
+  font-weight: bolder;
+  color: rgb(94, 94, 94);
+  display: flex;
+  justify-content: center;
+}
+
+form {
+  background: #fff;
+  max-width: 360px;
+  width: 100%;
+  padding: 58px 44px;
+  border: 1px solid #e1e2f0;
+  border-radius: 10px;
+  box-shadow: 0 0 5px 0 rgba(42, 45, 48, 0.12);
+  transition: all 0.3s ease;
+  margin-bottom: 160px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.row label {
+  font-size: 13px;
+  color: #8086a9;
+}
+
+.row input {
+  flex: 1;
+  padding: 13px;
+  border: 1px solid #d6d8e6;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: all 0.2s ease-out;
+}
+
+.row input:focus {
+  outline: none;
+  box-shadow: inset 2px 2px 5px 0 rgba(42, 45, 48, 0.12);
+}
+
+.row input::placeholder {
+  color: #C8CDDF;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  background: #4b4c4d;
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  font-family: 'Open Sans', sans-serif;
+  margin-top: 15px;
+  transition: background 0.2s ease-out;
+  display: flex;
+  justify-content: center;
+}
+
+button:hover {
+  background: #080911;
+}
+
+.loading-div{
+
+  display: none;
+  margin: auto ;
+  width: 50px;
+
+}
+.loading-div img {
+  height: 50px;
+  width: 50px;
+}
+
+.alerta-erro{
+
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+
+}
+
+.card-erro{
+
+  display: block;
+  background-color: #fff;
+  color: black;
+  width: 230px;
+  position: fixed;
+  border-radius: 4px;
+  border: #e6005a 3px solid;
+  padding: 10px;
+  margin-right: 10%;
+
+}
+
+.div-alerta{
+
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 7px;
+
+
+}
+
+.alert {
+  
+
+  padding: 20px;
+  background-color: #34C759; /* Red */
+  color: black;
+  margin-bottom: 15px;
+  border-left: 2px solid white;
+}
+
+
+.closebtn {
+  margin-left: 15px;
+  color: black;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+@media(max-width: 458px) {
+
+  body {
+    margin: 0 18px;
+  }
+  
+  form {
+    background: #f9faff;
+    border: none;
+    box-shadow: none;
+    padding: 20px 20px;
+  }
+
+  h1{
+    font-size: 48px;
+  }
+
+  input{
+    margin: 10px;
+  }
+
+  label{
+    margin: 10px;
+  }
+}
+

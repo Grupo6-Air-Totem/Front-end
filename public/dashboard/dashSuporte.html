@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard suporte</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    
+    <link rel="shortcut icon" href="../assets/icon/IconAirTotem.ico.jpg">
+    <link rel="stylesheet" href="../css/header.css">
+    <link rel="stylesheet" href="../css/menu.css">
+    <link rel="stylesheet" href="../css/perfil.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+</head>
+<body onload="validarSessao()">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="../js/sessao.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+      </style>
+<div class="div-telaPerfil">
+    
+    <div class="div-menu-lateral">
+
+        <div class="div-menu-cabecalhoEmpresa">
+          <img src="../assets/imgs/App Icon.svg" alt="blabla">
+            <p id="nome_empresa"></p>
+            <img src="../assets/imgs/menu_open.svg" alt="">
+        </div>
+        <!-- <hr> -->
+
+        
+        <div class="div-menu-TipoUsuario">
+          <img src="../assets/imgs/Avatar.svg" alt="blabla">
+            <p>Suporte</p>
+        </div>
+
+        <div class="div-menu-dadosLateral">
+          <!-- <li><img src="../assets/imgs/Control Panel.svg" alt=""><a href="../dashboard/dashGerente.html">Visão geral</a></li> -->
+          <li><img src="../assets/imgs/Settings.svg" alt=""><a href="../dashboard/setorSuporte.html">Setores</a></li>
+          <li><box-icon name='exit' color='#16b1ff' ></box-icon><a onclick="limparSessao()" style="cursor: pointer;">Encerrar sessão</a></li>
+        </div>
+
+    </div>
+ 
+    <div class="div-dashBoardTotem" id="id_dashBoardTotem" style="display: block; height: 100%;">
+        
+      <div class="contentDashBoardTotem">
+          <div class="cabecalhoTotem">
+          <div class="container">
+            <div class="row">
+              <div class="col-4">
+                <div class="card-body">
+                  <div class="card"  id="card1Cabecalho">
+                    <p><strong>ID Totem:</strong> 01</p>
+                    <p><strong>Modelo:</strong> XXXX  </p>
+                    <p><strong>Última  manutenção:</strong> 01/01/01</p>
+                    <p><strong>Tempo de utilização:</strong> 01:30:30</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4">
+                <div class="card-body">
+                  <div class="card" style="height: 143px;" id="card2Cabecalho">
+                    <h6>Status atual</h6>
+                    <h1 style="color: #34C759;">Bom</h1>
+                  </div>
+                </div>
+                
+              </div>
+              <div class="col-4">
+                <div class="card-body">
+                  <div class="card" style="height: 143px;"id="card3Cabecalho">
+                    <button type="button" class="btn btn-light">Tirar manutenção</button>
+                    <button type="button" class="btn btn-light">Colocar manutenção</button>  
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> 
+            <hr>
+          </div>
+      <div class="conteudoMeio">
+          <div class="container text-center" id="conteudoDashboardTotem">
+            <div class="row">
+              <div class="col">
+                <div class="card-body">
+                  <div class="card">
+                    <div class="conteudoCardTotem">
+                    <h5>Rede</h5>
+
+                      <div class="cardDados">
+                        <div class="bolinhaCard">
+                          <i class='bx bxs-circle' style='color:#f59e0b'  ></i> 
+                        </div>
+                        <div class="textoBolinhaCard">
+                          <span>Lento</span> 
+                        </div>
+                      </div> 
+                      <div class="textoCard">
+                        <p><strong>Host:</strong> mail.example.com</p>
+                      </div>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card-body"> 
+                  <div class="card">
+                    <h5>CPU</h5>
+
+                    <div class="cardDados">
+                      <div class="bolinhaCard">
+                        <i class='bx bxs-circle' style='color:#34C759'  ></i> 
+                      </div>
+                      <div class="textoBolinhaCard">
+                        <span>Boa</span> 
+                      </div>
+                    </div> 
+                    <div class="textoCard">
+                      <p><strong>Utilizando:</strong> 75%</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card-body">
+                  <div class="card">
+                    <h5>Memória</h5>
+                    <div class="cardDados">
+                      <div class="bolinhaCard">
+                        <i class='bx bxs-circle' style='color:#34C759'  ></i> 
+                      </div>
+                      <div class="textoBolinhaCard">
+                        <span>Boa</span> 
+                      </div>
+                    </div> 
+                    <div class="textoCard">
+                      <p><strong>Utilizando:</strong> 6Gb</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card-body">
+                  <div class="card">
+                    <h5>Disco</h5>
+                    <div class="cardDados">
+                      <div class="bolinhaCard">
+                        <i class='bx bxs-circle' style='color:#34C759'  ></i> 
+                      </div>
+                      <div class="textoBolinhaCard">
+                        <span>Boa</span> 
+                      </div>
+                    </div> 
+                    <div class="textoCard">
+                      <p><strong>Utilizando:</strong> 15%</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>    
+      <div class="container text-center" id="containerGraficos">
+            <div class="row row-cols-2" id="graficosEsquerda">
+              <div class="col-8">
+                   <div class="dashsSuporte">
+                <div class="row row-cols-1">
+                  <div class="col">
+                    <div class="card">
+                      <div class="card-body">
+                        <div id="CPUchart_div"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="row row-cols-1">
+                  <div class="col">
+                    <div class="card">
+                      <div class="card-body">
+                        <div id="Memorychart_div"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+              </div>
+                
+              </div>
+              <div class="col-4">
+                    <div class="card-body" style="height: 100%;">
+                      <div class="card" style="height: 100%; justify-content: center;">
+                        <h4>Uso da memória (%)</h4>
+                        <h2></h2>
+                        <div id="DiscChart_div"></div>
+                      </div>
+                    </div>
+              </div>
+            </div>
+          </div>
+      </div>    
+        <div class="cardsInovacao">
+          <button type="button" class="btn btn-light"><strong>Reiniciar</strong></button>
+          <button type="button" class="btn btn-light"><strong>Desligar</strong></button>  
+          </div>
+        </div>
+        </div>
+
+</body>
+</html>
+<script>
+
+google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', {'packages':['gauge']});
+google.charts.setOnLoadCallback(drawChartCPU);
+google.charts.setOnLoadCallback(drawChartMemory);
+google.charts.setOnLoadCallback(drawChartDisc);
+
+function drawChartCPU() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Seconds');
+      data.addColumn('number', '% Uso');
+
+      data.addRows([
+        [0, 0],   [1, 10],  [2, 23],  [3, 17],  [4, 18],  [5, 9],
+        [6, 11],  [7, 27],  [8, 33],  [9, 40],  [10, 32], [11, 35],
+        [12, 30], [13, 40], [14, 42], [15, 47], [16, 44], [17, 48],
+        [18, 52], [19, 54], [20, 42], [21, 55], [22, 56], [23, 57],
+        [24, 60], [25, 50], [26, 52], [27, 51], [28, 49], [29, 53],
+        [30, 55], [31, 60], [32, 61], [33, 59], [34, 62], [35, 65]
+        ]);
+
+
+
+
+      var options = {
+          hAxis: {
+            title: '60seconds',
+            titleTextStyle: {italic: false, fontSize: 15,  alignment: 'center'},
+            gridlines:{
+              color: 'transparent'
+            }
+          },
+          vAxis: {
+            titleTextStyle: {italic: false , fontSize: 15}
+          },
+          series: {
+            0: {
+              color: 'orange' 
+            },
+          },
+            title: "Cpu",
+            titleTextStyle: {
+            fontSize: 28
+  },
+  legend: {fontSize: 10, position: 'labeled'},
+  chartArea: {
+    backgroundColor: {strokeWidth: 2}
+  }
+};
+
+      var chart = new google.visualization.AreaChart(document.getElementById('CPUchart_div'));
+      chart.draw(data, options);
+}
+
+function drawChartMemory() {
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Seconds');
+      data.addColumn('number', '8Gb');
+
+      data.addRows([
+        [0, 0],   [1, 10],  [2, 23],  [3, 17],  [4, 18],  [5, 9],
+        [6, 11],  [7, 27],  [8, 33],  [9, 40],  [10, 32], [11, 35],
+        [12, 30], [13, 40], [14, 42], [15, 47], [16, 44], [17, 48],
+        [18, 52], [19, 54], [20, 42], [21, 55], [22, 56], [23, 57],
+        [24, 60], [25, 50], [26, 52], [27, 51], [28, 49], [29, 53],
+        [30, 55], [31, 60], [32, 61], [33, 59], [34, 62], [35, 65]
+        ]);
+
+      var options = {
+        fill:true,
+          hAxis: {
+            title: '60seconds',
+            titleTextStyle: {italic: false, fontSize: 15},
+            titlePosition: 'out',
+            textPosition: 'out',
+          },
+          vAxis: {
+            titleTextStyle: {italic: false , fontSize: 15},
+            gridlines: {
+              color: 'transparent',
+            },
+          },
+          series: {
+            0: {
+              color: '#4379EE' 
+            },
+            1: {
+              color: 'blue' 
+            }
+          },
+            title: "Memória",
+            titleTextStyle: {
+            fontSize: 28
+  },
+  legend: {fontSize: 10, position: 'labeled'},
+};
+
+      var chart = new google.visualization.AreaChart(document.getElementById('Memorychart_div'));
+      chart.draw(data, options);
+}
+
+function drawChartDisc() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+          ['Uso', 30],
+          ['Disponível',70]
+        ]);
+
+        var options = {
+          // title: 'Uso da memória (%)',
+          // titleTextStyle: {
+          //   fontSize: 18,
+          //   textPosition: 'center'
+          // },
+          // legend: 'none',
+          legend: { textStyle: { fontSize: 11,},  position: 'bottom' },
+          backgroundColor: { fill:'transparent' },
+          pieHole: 0.85,
+          chartArea:{
+            height:'70%',
+            width: '100%'
+            
+          },
+          colors:['#4E9FF8','#34C759'],
+          pieSliceTextStyle: {
+            color: 'black',
+            
+          }
+          // pieSliceText: 'none'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('DiscChart_div'));
+        chart.draw(data, options);
+      }
+
+</script>
