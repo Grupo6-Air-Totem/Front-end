@@ -13,11 +13,7 @@
 
 <body>
     <h2><a href="index.html">Home</a></h2>
-    <div class="div-alerta">
-    <div class="alert">
-        Login realizado com sucesso!
-      </div>
-    </div>
+
     <h1>Air Totem</h1>
     <form>
         <h2>Login</h2>
@@ -43,65 +39,67 @@
 <script>
 
 function entrar() {
-        aguardar()
+    aguardar();
 
-        var emailVar = ipt_email.value;
-        var senhaVar = ipt_password.value;
+    var emailVar = ipt_email.value;
+    var senhaVar = ipt_password.value;
 
-        console.log("FORM LOGIN: ", emailVar);
-        console.log("FORM SENHA: ", senhaVar);
+    console.log("FORM LOGIN: ", emailVar);
+    console.log("FORM SENHA: ", senhaVar);
 
-        fetch("/usuarios/autenticar", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                emailServer: emailVar,
-                senhaServer: senhaVar
-            })
-        }).then(function (resposta) {
-            console.log("ESTOU NO THEN DO entrar()!")
-
-            if (resposta.ok) {
-                console.log(resposta);
-
-                resposta.json().then(json => {
-                    console.log(json);
-                    console.log(JSON.stringify(json));
-                    sessionStorage.EMAIL_USUARIO = json.email;
-                    sessionStorage.NOME_USUARIO = json.nomeUsuario;
-                    sessionStorage.ID_USUARIO = json.idUser;
-                    sessionStorage.TIPO_USUARIO = json.tipo;
-                    sessionStorage.NOME_EMPRESA = json.nomeEmpresa;
-
-                    setTimeout(function () {
-                        if(json.tipo == 1){
-                            window.location = "./dashboard/geralSuporte.html";
-                        }else if(json.tipo == 2){
-                            window.location = "./dashboard/dashGerente.html";
-                        }else{
-                            window.location = "./dashboard/adm.html";
-                        }
-                        
-                    }, 2000);
-
-                });
-
-            } else {
-
-                console.log("Houve um erro ao tentar realizar o login!");
-
-                resposta.text().then(texto => {
-                    console.error(texto);
-                });
-            }
-
-        }).catch(function (erro) {
-            console.log(erro);
+    fetch("/usuarios/autenticar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            emailServer: emailVar,
+            senhaServer: senhaVar
         })
+    }).then(function (resposta) {
+        console.log("ESTOU NO THEN DO entrar()!");
 
-        return false;
-    }
+        if (resposta.ok) {
+            console.log(resposta);
+
+            resposta.json().then(json => {
+                console.log(json);
+                console.log(JSON.stringify(json));
+                sessionStorage.ID_USUARIO = json.idUser;
+                sessionStorage.NOME_USUARIO = json.nomeUsuario;
+                sessionStorage.NOME_EMPRESA = json.nomeEmpresa;
+                sessionStorage.EMAIL_USUARIO = json.email;
+                sessionStorage.ID_EMPRESA = json.empresaId;
+                sessionStorage.NIVEL_ACESSO = json.nivelAcesso;
+                sessionStorage.AEROPORTO_ID = json.aeroId; // Armazenando o id do aeroporto
+
+                setTimeout(function () {
+                    if(json.nivelAcesso === 'Suporte'){
+                        window.location = "./dashboard/geralSuporte.html";
+                    } else if(json.nivelAcesso === 'Gerente'){
+                        window.location = "./dashboard/dashGerente.html";
+                    } else {
+                        window.location = "./dashboard/adm.html";
+                    }
+                }, 2000);
+
+            });
+
+        } else {
+            console.log("Houve um erro ao tentar realizar o login!");
+
+            resposta.text().then(texto => {
+                console.error(texto);
+            });
+        }
+
+    }).catch(function (erro) {
+        console.log(erro);
+    });
+
+    return false;
+}
+
+
 
 </script>

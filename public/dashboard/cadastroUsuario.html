@@ -53,71 +53,115 @@
         <div class="card">
             <div class="card-body">
                 <div class="container text-center">
-                    <div class="row">
-                      <div class="col-6">
-                        <div class="entradasEsquerda">
-                            <div>
-                                <p>Nome</p>
-                                <input type="text" placeholder="Insira seu nome" id="iptNome">
-                            </div>
-                            <div>
-                                <p>Email</p>
-                                <input type="email" placeholder="Insira seu email" id="iptEmail">
-                            </div>
-                            <div>
-                                <p>CPF</p>
-                                <input type="text" placeholder="Insira seu CPF" id="iptCPF">
-                            </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <div class="entradasEsquerda">
+                        <div>
+                          <p>Nome</p>
+                          <input type="text" placeholder="Insira seu nome" id="iptNome">
                         </div>
-                      </div>
-                      <div class="col-6">
-                        <div class="entradasDireita">
-                            <div>
-                                <p>Sobrenome</p>
-                                <input type="text" placeholder="Insira seu sobrenome" id="iptNome">
-                            </div>
-                            <div>
-                                <p>Celular</p>
-                                <input type="tel" placeholder="Insira seu email" id="iptEmail">
-                            </div>
-                                <div class="dropDown">
-                                 <div class="container text-center">
-                                    <div class="row">
-                                      <div class="col">
-                                            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="botaoTipo">
-                                                Tipo do usuário
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                              <li><a class="dropdown-item" href="#">Suporte</a></li>
-                                              <li><a class="dropdown-item" href="#">Gerente geral</a></li>
-                                              <li><a class="dropdown-item" href="#">Administrador</a></li>
-                                            </ul>
-                                      </div>
-                                      <div class="col">
-                                            <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="botaoAeroporto">
-                                              Aeroporto
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                              <li><a class="dropdown-item" href="#">Congonhas</a></li>
-                                              <li><a class="dropdown-item" href="#">Guarulhos</a></li>
-                                              <li><a class="dropdown-item" href="#">Bahia</a></li>
-                                            </ul>
-                                      </div>
-                                    </div>
-                                  </div> 
-                                </div>
+                        <div>
+                          <p>Email</p>
+                          <input type="email" placeholder="Insira seu email" id="iptEmail">
+                        </div>
+                        <div>
+                          <p>CPF</p>
+                          <input type="text" placeholder="Insira seu CPF" id="iptCPF">
                         </div>
                       </div>
                     </div>
+                    <div class="col-6">
+                      <div class="entradasDireita">
+                        <div>
+                          <p>Sobrenome</p>
+                          <input type="text" placeholder="Insira seu sobrenome" id="iptSobrenome">
+                        </div>
+                        <div>
+                          <p>Celular</p>
+                          <input type="tel" placeholder="Insira seu celular" id="iptCelular">
+                          <input type="hidden" id="idEmpresa" value="1"> <!-- Substitua o valor "1" pelo ID correto da empresa -->
+
+                        </div>
+                        <div class="dropDown">
+                          <div class="container text-center">
+                            <div class="row">
+                              <div class="col">
+                                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="botaoTipo">
+                                  Tipo do usuário
+                                </button>
+                                <ul class="dropdown-menu" id="tipoUsuario">
+                                  <li><a class="dropdown-item" href="#" onclick="selecionarTipo('Suporte')">Suporte</a></li>
+                                  <li><a class="dropdown-item" href="#" onclick="selecionarTipo('Gerente')">Gerente geral</a></li>
+                                  <li><a class="dropdown-item" href="#" onclick="selecionarTipo('Administrador')">Administrador</a></li>
+                                </ul>
+                              </div>
+                              <div class="col">
+                                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="botaoAeroporto">
+                                  Aeroporto
+                                </button>
+                                <ul class="dropdown-menu" id="aeroportoUsuario">
+                                  <li><a class="dropdown-item" href="#" onclick="selecionarAeroporto('Congonhas')">Congonhas</a></li>
+                                  <li><a class="dropdown-item" href="#" onclick="selecionarAeroporto('Guarulhos')">Guarulhos</a></li>
+                                  <li><a class="dropdown-item" href="#" onclick="selecionarAeroporto('Bahia')">Bahia</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                      </div>
+                    </div>
+                  </div>
 
                   </div>
                   <div class="div-botaoAdd">
-                  <button type="button" class="btn btn-primary">Adicionar</button>
+                  <button type="button" class="btn btn-primary" onclick="cadastrarUsuario()">Adicionar</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
+<script>
+  let tipoUsuarioSelecionado = '';
+  let aeroportoSelecionado = '';
 
+  function selecionarTipo(tipo) {
+    tipoUsuarioSelecionado = tipo;
+    document.getElementById('botaoTipo').innerText = tipo;
+  }
 
-        </div>
+  function selecionarAeroporto(aeroporto) {
+    aeroportoSelecionado = aeroporto;
+    document.getElementById('botaoAeroporto').innerText = aeroporto;
+  }
+
+  function cadastrarUsuario() {
+    const nome = document.getElementById('iptNome').value;
+    const sobrenome = document.getElementById('iptSobrenome').value;
+    const email = document.getElementById('iptEmail').value;
+    const cpf = document.getElementById('iptCPF').value;
+    const celular = document.getElementById('iptCelular').value;
+
+    fetch('/usuarios/cadastrar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        nome: nome,
+        sobrenome: sobrenome,
+        email: email,
+        cpf: cpf,
+        celular: celular,
+        tipoUsuario: tipoUsuarioSelecionado,
+        aeroporto: aeroportoSelecionado
+      })
+    }).then(response => {
+      if (response.ok) {
+        alert('Usuário cadastrado com sucesso!');
+      } else {
+        alert('Erro ao cadastrar usuário.');
+      }
+    }).catch(error => {
+      console.error('Erro ao cadastrar usuário:', error);
+    });
+  }
+</script>

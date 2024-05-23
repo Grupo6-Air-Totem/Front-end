@@ -35,7 +35,7 @@
             </div>
             <div class="div-menu-TipoUsuario">
               <img src="../assets/imgs/Avatar.svg" alt="blabla">
-                <p>Administrador</p>
+                <p id="b_usuario">Administrador</p>
             </div>
             <div class="div-menu-dadosLateral">
               <li><box-icon name='exit' color='#16b1ff' ></box-icon><a onclick="limparSessao()" style="cursor: pointer;">Encerrar sessão</a></li>
@@ -82,32 +82,6 @@
                         <td>Tipo</td>
                         <td>Ações</td>
                       </tr>
-                      <tr>
-                        <td>Caue Mendonca Ghelfi</td>
-                        <td>Guarulhos</td>
-                        <td>Suporte</td>
-                        <td>
-                          <a href=""><box-icon name='edit' type='solid' ></box-icon></a>
-                          <a href=""><box-icon name='trash' color='#ef3826' ></box-icon></a></td>
-                        </td>
-                      <tr>
-                        <td>Carlos Santana</td>
-                        <td>Congonhas</td>
-                        <td>Gerente geral</td>
-                        <td>
-                          <a href=""><box-icon name='edit' type='solid' ></box-icon></a>
-                          <a href=""><box-icon name='trash' color='#ef3826' ></box-icon></a></td>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Claudio Amaral</td>
-                        <td>Congonhas</td>
-                        <td>Suporte</td>
-                        <td>
-                          <a href=""><box-icon name='edit' type='solid' ></box-icon></a>
-                          <a href=""><box-icon name='trash' color='#ef3826' ></box-icon></a></td>
-                        </td>
-                      </tr>
                     </table>
                 </div>
               </div>
@@ -119,3 +93,87 @@
         
 
         </div>
+
+<script>
+  function listarUsuarios() {
+    fetch("/usuarios/listar")
+        .then(response => response.json())
+        .then(data => {
+            const tabela = document.querySelector(".table-Totens");
+
+            data.forEach(usuario => {
+                const novaLinha = document.createElement("tr");
+                novaLinha.setAttribute('data-id', usuario.idUser);
+
+                const tdNome = document.createElement("td");
+                tdNome.textContent = usuario.nomeUsuario;
+
+                const tdEmpresa = document.createElement("td");
+                tdEmpresa.textContent = usuario.nomeEmpresa;
+
+                const tdTipo = document.createElement("td");
+                tdTipo.textContent = usuario.nivelAcesso;
+
+                const tdAcoes = document.createElement("td");
+
+                const editLink = document.createElement("a");
+                editLink.href = "#";
+                const editIcon = document.createElement("box-icon");
+                editIcon.setAttribute('name', 'edit');
+                editIcon.setAttribute('type', 'solid');
+                editLink.appendChild(editIcon);
+
+                const deleteLink = document.createElement("a");
+                deleteLink.href = "#";
+                deleteLink.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    deletarUsuario(usuario.idUser, novaLinha);
+                });
+                const deleteIcon = document.createElement("box-icon");
+                deleteIcon.setAttribute('name', 'trash');
+                deleteIcon.setAttribute('color', '#ef3826');
+                deleteLink.appendChild(deleteIcon);
+
+                tdAcoes.appendChild(editLink);
+                tdAcoes.appendChild(deleteLink);
+
+                novaLinha.appendChild(tdNome);
+                novaLinha.appendChild(tdEmpresa);
+                novaLinha.appendChild(tdTipo);
+                novaLinha.appendChild(tdAcoes);
+
+                tabela.appendChild(novaLinha);
+            });
+        })
+        .catch(error => {
+            console.error("Erro ao listar usuários:", error);
+        });
+}
+
+function deletarUsuario(idUser, linha) {
+    fetch(`/usuarios/deletar/${idUser}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            linha.remove();
+            console.log(`Usuário com id ${idUser} deletado com sucesso.`);
+        } else {
+            console.error(`Erro ao deletar o usuário com id ${idUser}.`);
+        }
+    })
+    .catch(error => {
+        console.error(`Erro ao deletar o usuário com id ${idUser}:`, error);
+    });
+}
+
+// Chamar a função ao carregar a página
+window.onload = function() {
+    listarUsuarios();
+};
+
+
+</script>
