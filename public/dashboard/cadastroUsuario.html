@@ -134,34 +134,56 @@
   }
 
   function cadastrarUsuario() {
-    const nome = document.getElementById('iptNome').value;
-    const sobrenome = document.getElementById('iptSobrenome').value;
-    const email = document.getElementById('iptEmail').value;
-    const cpf = document.getElementById('iptCPF').value;
-    const celular = document.getElementById('iptCelular').value;
+    var nomeVar = document.getElementById("iptNome").value;
+    var sobrenomeVar = document.getElementById("iptSobrenome").value;
+    var emailVar = document.getElementById("iptEmail").value;
+    var cpfVar = document.getElementById("iptCPF").value;
+    var celularVar = document.getElementById("iptCelular").value;
+    var nivelAcessoVar = document.getElementById("botaoTipo").innerText.trim();
+    var fk_empresa = sessionStorage.ID_EMPRESA;
+    var fk_aeroporto = sessionStorage.AEROPORTO_ID;
 
-    fetch('/usuarios/cadastrar', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        nome: nome,
-        sobrenome: sobrenome,
-        email: email,
-        cpf: cpf,
-        celular: celular,
-        tipoUsuario: tipoUsuarioSelecionado,
-        aeroporto: aeroportoSelecionado
-      })
-    }).then(response => {
-      if (response.ok) {
-        alert('Usuário cadastrado com sucesso!');
-      } else {
-        alert('Erro ao cadastrar usuário.');
-      }
-    }).catch(error => {
-      console.error('Erro ao cadastrar usuário:', error);
+    console.log("Dados do Formulário: ", nomeVar, sobrenomeVar, emailVar, cpfVar, celularVar, nivelAcessoVar, fk_empresa, fk_aeroporto);
+
+    fetch("/usuarios/cadastrar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nomeServer: nomeVar,
+            sobrenomeServer: sobrenomeVar,
+            emailServer: emailVar,
+            cpfServer: cpfVar,
+            celularServer: celularVar,
+            nivelAcessoServer: nivelAcessoVar,
+            empresaIdServer: fk_empresa,
+            aeroportoIdServer: fk_aeroporto
+        })
+    }).then(function (resposta) {
+        console.log("ESTOU NO THEN DO cadastrarUsuario!");
+
+        if (resposta.ok) {
+            console.log("Usuário cadastrado com sucesso!");
+
+            resposta.json().then(json => {
+                console.log(json);
+                alert("Usuário cadastrado com sucesso!");
+            });
+
+        } else {
+            console.log("Houve um erro ao tentar cadastrar o usuário!");
+
+            resposta.text().then(texto => {
+                console.error(texto);
+            });
+        }
+
+    }).catch(function (erro) {
+        console.log(erro);
     });
-  }
+
+    return false;
+}
+
 </script>

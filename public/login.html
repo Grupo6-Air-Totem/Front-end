@@ -13,8 +13,8 @@
 
 <body>
     <h2><a href="index.html">Home</a></h2>
-
     <h1>Air Totem</h1>
+    <div id="mensagemAcesso" style="display: none;"></div>
     <form>
         <h2>Login</h2>
         <div class="row">
@@ -73,6 +73,9 @@ function entrar() {
                 sessionStorage.NIVEL_ACESSO = json.nivelAcesso;
                 sessionStorage.AEROPORTO_ID = json.aeroId; // Armazenando o id do aeroporto
 
+                // Exibir mensagem de acesso
+                mostrarMensagemAcesso();
+
                 setTimeout(function () {
                     if(json.nivelAcesso === 'Suporte'){
                         window.location = "./dashboard/geralSuporte.html";
@@ -99,6 +102,18 @@ function entrar() {
 
     return false;
 }
+
+function mostrarMensagemAcesso() {
+    // Selecionar o elemento da mensagem
+    var mensagemElement = document.getElementById('mensagemAcesso');
+
+    // Definir o texto da mensagem
+    mensagemElement.innerText = 'Acesso realizado com sucesso!';
+
+    // Mostrar a mensagem
+    mensagemElement.style.display = 'block';
+}
+
 
 
 
