@@ -8,7 +8,6 @@ router.get('/listarDadosKPI/:idTotem', function(req,res){
 })
 
 router.post('/atualizarStatusManutencao/:idTotem', function(req,res){
-    debugger
     dashChartsController.atualizarStatusManutencao(req,res);
 })
 

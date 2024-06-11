@@ -142,7 +142,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
 function atualizarStatusManutencao(acao){
     var idTotem = sessionStorage.ID_TOTEM;
-    debugger
     fetch(`/dashChartsRoute/atualizarStatusManutencao/${idTotem}`,{
         method: 'POST',
         headers: {
@@ -154,6 +153,7 @@ function atualizarStatusManutencao(acao){
     })
     .then(function (response){
         if(response.ok){
+            console.log("RESPOSTA: " + response.json());
         return response.json();
         }else{
             throw new error('Erro ao atualizar status de manutenção');
@@ -165,3 +165,5 @@ function atualizarStatusManutencao(acao){
         console.error("Erro:", error);
     })
 }
+
+

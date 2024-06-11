@@ -80,7 +80,6 @@ WHERE fk_totem = '${idTotem}' AND colocadoManutencao IS NOT NULL;`
 }
 
 function atualizarStatusAtivo (idTotem, novoStatus){
-    console.log("AAA cheguei aqui!");
     var instrucaoSQL = `UPDATE historicoStatus
     set statusTotem = '${novoStatus}',
         retiradoManutencao = NOW()

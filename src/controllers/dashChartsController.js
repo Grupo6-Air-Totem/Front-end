@@ -26,6 +26,7 @@ var dashChartsModel = require("../models/dashChartsModel");
   }
 
   function atualizarStatusManutencao(req,res){
+    debugger
     const idTotem = req.params.idTotem;
     const { acao } = req.body;
     console.log("ID TOTEM: " + idTotem);
