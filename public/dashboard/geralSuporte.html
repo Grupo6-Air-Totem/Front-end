@@ -1,129 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Setor suporte</title>
-    <link rel="shortcut icon" href="../assets/icon/IconAirTotem.ico.jpg">
-    <link rel="stylesheet" href="../CSS/header.css">
-    <link rel="stylesheet" href="../CSS/menu.css">
-    <link rel="stylesheet" href="../CSS/perfil.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Setor suporte</title>
+  <link rel="shortcut icon" href="../assets/icon/IconAirTotem.ico.jpg" />
+  <link rel="stylesheet" href="../CSS/header.css" />
+  <link rel="stylesheet" href="../CSS/menu.css" />
+  <link rel="stylesheet" href="../CSS/perfil.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet" />
 </head>
-<body onload="validarSessao()">
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript" src="../js/sessao.js"></script>
-    <script type="text/javascript" src="../js/dashGeral.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-      </style>
 
-    <div class="div-telaPerfil">
-        
-        <div class="div-menu-lateral">
+<body>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="../js/sessao.js"></script>
+  <script type="text/javascript" src="../js/dashGeral.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+  </style>
 
-            <div class="div-menu-cabecalhoEmpresa">
-              <img src="../assets/imgs/App Icon.svg" alt="blabla">
-              <p id="nome_empresa"></p>
-              <img src="../assets/imgs/menu_open.svg" alt="">
-            </div>
+  <div class="div-telaPerfil">
+    <div class="div-menu-lateral">
+      <div class="div-menu-cabecalhoEmpresa">
+        <img src="../assets/imgs/App Icon.svg" alt="blabla" />
+        <p id="nome_empresa"></p>
+        <img src="../assets/imgs/menu_open.svg" alt="" />
+      </div>
 
-            
-            <div class="div-menu-TipoUsuario">
-              <img src="../assets/imgs/Avatar.svg" alt="blabla">
-                <p>Suporte</p>
-            </div>
+      <div class="div-menu-TipoUsuario">
+        <img src="../assets/imgs/Avatar.svg" alt="blabla" />
+        <p>Suporte</p>
+      </div>
 
-            <div class="div-menu-dadosLateral">
-              <li><img src="../assets/imgs/Settings.svg" alt=""><a href="../dashboard/geralSuporte.html">Setores</a></li>
-              <li><box-icon name='exit' color='#16b1ff' ></box-icon><a onclick="limparSessao()" style="cursor: pointer;">Encerrar sessão</a></li>
-            </div>
-        </div>
-
-            <div class="geralSuporte" style="display: block; height: 100%; background-color: #E9EBF0;" >
-                <div class="conteudoGeral">
-                    <h2>Visão geral</h2>
-                    <div class="div-ContentDash">
-                      <div class="container text-center">
-                        <div class="row">
-                          <div class="col">
-                            <div class="card" style="height: 9.2rem;">
-                              <div class="card-body">
-                                <h5>Total de totens</h5>
-                                <h3 style="color: #3478C7;">60</h3>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col">
-                            <div class="card">
-                              <div class="card-body">
-                                <h5>Totens ativos</h5>
-                                <h3 style="color: #3478C7;">20</h3>
-                                <p>88% de 100%</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col">
-                            <div class="card">
-                              <div class="card-body">
-                              <h5>Totens inativos</h5>
-                              <h3 style="color: #3478C7;">5</h3>
-                              <p>2% de 100%</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col">
-                            <div class="card">
-                              <div class="card-body">
-                                <h5>Em manutenção</h5>
-                                <h3 style="color: #3478C7;">10</h3>
-                                <p>10% de 100%</p>
-                              </div>
-                            </div>
-          
-                          </div>
-                        </div>
-                      </div>
-          
-                      <div class="conteudoDash">
-          
-                        <div class="container text-center">
-                          <div class="row">
-                            <div class="col">
-                              <div class="card">
-                                <div class="card-body">
-                                  <h4>Setores</h4>
-                                  <table class="table-terminais">
-                                    <tr class="title-table-totens">
-                                      <td>Terminal</td>
-                                      <td>Quantidade total de totens</td>
-                                      <td>Ativos</td>
-                                      <td>Inativos</td>
-                                      <td>Manutenção</td>
-                                    </tr>
-
-
-                                      </table>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>            
-                      </div>
-                    </div>
-        </div>
+      <div class="div-menu-dadosLateral">
+        <li>
+          <img src="../assets/imgs/Settings.svg" alt="" /><a href="../dashboard/geralSuporte.html">Setores</a>
+        </li>
+        <li>
+          <box-icon name="exit" color="#16b1ff"></box-icon><a onclick="limparSessao()" style="cursor: pointer">Encerrar
+            sessão</a>
+        </li>
+      </div>
     </div>
 
+    <div class="geralSuporte" style="display: block; height: 100%; background-color: #e9ebf0">
+      <div class="conteudoGeral">
+        <h2>Visão geral</h2>
+        <div class="div-ContentDash">
+          <div class="container text-center">
+            <div class="row">
+              <div class="col">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Qtd total de totens</h5>
+                    <h3 id="totalEmpresa"></h3>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Totens ativos</h5>
+                    <h3 id="totens_ativos"></h3>
+                    <p id="porcent_Ativo"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Totens inativos</h5>
+                    <h3 id="totens_inativo"></h3>
+                    <p id="porcent_Inativo"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card">
+                  <div class="card-body">
+                    <h5>Em manutenção</h5>
+                    <h3 id="totens_manutencao" ></h3>
+                    <p id="porcent_manutencao"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-
-
+          <div class="conteudoDash">
+            <div class="container text-center">
+              <div class="row">
+                <div class="col">
+                  <div class="card">
+                    <div class="card-body">
+                      <h4>Setores</h4>
+                      <table class="table-terminais">
+                          <th>Aeroporto</th>
+                          <th>Terminal</th>
+                          <th>Quantidade total de totens</th>
+                          <th>Ativos</th>
+                          <th>Inativos</th>
+                          <th>Manutenção</th>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    
+      </div>
+    </div>
+  </div>
 </body>
+
 </html>
+
+<script>
+
+  window.onload =  validarSessao();
+  
+  </script>

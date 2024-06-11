@@ -17,9 +17,10 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     
 </head>
-<body onload="validarSessao()">
+<body>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="../js/sessao.js"></script>
+    <script type="text/javascript" src="../js/dashCharts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
@@ -60,18 +61,46 @@
               <div class="col-4">
                 <div class="card-body">
                   <div class="card"  id="card1Cabecalho">
-                    <p><strong>ID Totem:</strong> 01</p>
-                    <p><strong>Modelo:</strong> XXXX  </p>
-                    <p><strong>Última  manutenção:</strong> 01/01/01</p>
-                    <p><strong>Tempo de utilização:</strong> 01:30:30</p>
+                    <p>ID TOTEM: <strong id="id_totem"></strong></p>
+                    <p>Sistema operacional: <strong id="sistema_operacional"></strong></p>
+                    <p>Modelo processador: <strong id="modelo_processador"></strong></p>
+                    <p>Memoria RAM: <strong id="memoria_ram"></strong></p>
+                    <p>Host: <strong id="host_rede"></strong></p>
+                    <p>Tempo atividade: <strong id="tempo_atividade"></strong></p>
                   </div>
                 </div>
               </div>
               <div class="col-4">
                 <div class="card-body">
-                  <div class="card" style="height: 143px;" id="card2Cabecalho">
+                  <div class="card" style="height: 100%;" id="card2Cabecalho">
                     <h6>Status atual</h6>
-                    <h1 style="color: #34C759;">Bom</h1>
+                    <h1 id="statusGeral"></h1>
+                  <div class="bolinhas" style="display: flex; flex-direction: row; margin-top: 10px;">
+                    <div class="cardDados">
+                      <div class="bolinhaCard">
+                        <i class='bx bxs-circle' id="corCPU"  ></i> 
+                      </div>
+                      <div class="textoBolinhaCard">
+                        <span>CPU</span> 
+                      </div>
+                    </div> 
+                    <div class="cardDados">
+                      <div class="bolinhaCard">
+                        <i class='bx bxs-circle' id="corMemoria" ></i> 
+                      </div>
+                      <div class="textoBolinhaCard">
+                        <span>MEMORIA</span> 
+                      </div>
+                    </div> 
+                    <div class="cardDados">
+                      <div class="bolinhaCard">
+                        <i class='bx bxs-circle' id="corRede"  ></i> 
+                      </div>
+                      <div class="textoBolinhaCard">
+                        <span>REDE</span> 
+                      </div>
+                    </div> 
+                    </div>
                   </div>
                 </div>
                 
@@ -79,8 +108,8 @@
               <div class="col-4">
                 <div class="card-body">
                   <div class="card" style="height: 143px;"id="card3Cabecalho">
-                    <button type="button" class="btn btn-light">Tirar manutenção</button>
-                    <button type="button" class="btn btn-light">Colocar manutenção</button>  
+                    <button type="button" class="btn btn-light" id="tirarManutencaoBtn">Tirar manutenção</button>
+                    <button type="button" class="btn btn-light" id="colocarManutencaoBtn">Colocar manutenção</button>  
                   </div>
                 </div>
               </div>
