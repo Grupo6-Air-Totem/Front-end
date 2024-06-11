@@ -43,15 +43,16 @@ function autenticar(req, res) {
 }
 
 function listar(req, res) {
-  usuarioModel
-    .listar()
-    .then(function (resultado) {
-      res.json(resultado);
-    })
-    .catch(function (erro) {
-      console.log(erro);
-      res.status(500).json(erro.sqlMessage);
-    });
+    var empresaId = req.params.empresaId;
+    var aeroportoId = req.params.aeroportoId;
+
+    usuarioModel.listar(empresaId, aeroportoId)
+        .then(function (resultado) {
+            res.json(resultado);
+        }).catch(function (erro) {
+            console.log(erro);
+            res.status(500).json({ error: erro.sqlMessage });
+        });
 }
 
 function deletar(req, res) {
@@ -69,30 +70,31 @@ function deletar(req, res) {
 }
 
 function cadastrar(req, res) {
-  var nome = req.body.nome;
-  var sobrenome = req.body.sobrenome;
-  var email = req.body.email;
-  var cpf = req.body.cpf;
-  var celular = req.body.celular;
-  var nivelAcesso = req.body.nivelAcesso;
-  var fk_empresa = req.body.fk_empresa; // Certifique-se de que esteja recebendo corretamente
-  var fk_aeroporto = req.body.fk_aeroporto; // Certifique-se de que esteja recebendo corretamente
+    var nome = req.body.nomeServer;
+    var sobrenome = req.body.sobrenomeServer;
+    var email = req.body.emailServer;
+    var cpf = req.body.cpfServer;
+    var celular = req.body.celularServer;
+    var nivelAcesso = req.body.nivelAcessoServer;
+    var empresaId = req.body.empresaIdServer;
+    var aeroportoId = req.body.aeroportoIdServer;
 
-  // Agora, construa a instrução SQL com os valores recebidos
-  var instrucaoSql = `
-        INSERT INTO usuario (nome, sobrenome, email, cpf, celular, nivelAcesso, fk_empresa, fk_aeroporto)
-        VALUES ('${nome}', '${sobrenome}', '${email}', '${cpf}', '${celular}', '${nivelAcesso}', '${fk_empresa}', '${fk_aeroporto}')
-    `;
-
-  // Agora, execute a instrução SQL e responda ao cliente
-  database
-    .executar(instrucaoSql)
-    .then((resultado) =>
-      res.status(200).send("Usuário cadastrado com sucesso!")
-    )
-    .catch((erro) =>
-      res.status(500).send("Erro ao cadastrar usuário: " + erro)
-    );
+    if (nome == undefined || sobrenome == undefined || email == undefined || cpf == undefined || celular == undefined || nivelAcesso == undefined || empresaId == undefined || aeroportoId == undefined) {
+        res.status(400).send("Um ou mais campos estão undefined!");
+    } else {
+        usuarioModel.cadastrar(nome, sobrenome, email, cpf, celular, nivelAcesso, empresaId, aeroportoId)
+            .then(
+                function (resultado) {
+                    res.json(resultado);
+                }
+            ).catch(
+                function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao realizar o cadastro! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                }
+            );
+    }
 }
 
 module.exports = {

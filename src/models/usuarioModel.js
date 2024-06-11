@@ -27,10 +27,10 @@ function autenticar(email, senha) {
     return database.executar(instrucaoSql);
 }
 
-function listar() {
+function listar(empresaId, aeroportoId) {
     var instrucaoSql = `
         SELECT 
-            u.idUser,
+            u.idUser AS idUser,
             u.nome AS nomeUsuario,
             e.nome AS nomeEmpresa,
             u.nivelAcesso AS nivelAcesso
@@ -39,11 +39,18 @@ function listar() {
         JOIN 
             empresa AS e 
         ON 
-            u.fk_empresa = e.idEmpresa;
+            u.fk_empresa = e.idEmpresa
+        WHERE 
+            u.fk_empresa = ${empresaId} AND u.fk_aeroporto = ${aeroportoId};
     `;
+
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
+
     return database.executar(instrucaoSql);
 }
+
+
+
 
 function deletar(idUser) {
     var instrucaoSql = `DELETE FROM usuario WHERE idUser = ${idUser}`;
@@ -52,10 +59,12 @@ function deletar(idUser) {
 }
 
 
-function cadastrar(nome, sobrenome, email, cpf, celular, tipoUsuario, nomeAeroporto, idEmpresa) {
+function cadastrar(nome, sobrenome, email, cpf, celular, nivelAcesso, empresaId, aeroportoId) {
+    console.log("ACESSEI O USUARIO MODEL: function cadastrar()");
+
     var instrucaoSql = `
         INSERT INTO usuario (nome, sobrenome, email, cpf, celular, nivelAcesso, fk_empresa, fk_aeroporto)
-        VALUES ('${nome}', '${sobrenome}', '${email}', '${cpf}', '${celular}', '${tipoUsuario}', ${idEmpresa}, (SELECT idAero FROM aeroporto WHERE nome = '${nomeAeroporto}'))
+        VALUES ('${nome}', '${sobrenome}', '${email}', '${cpf}', '${celular}', '${nivelAcesso}', '${empresaId}', '${aeroportoId}');
     `;
     console.log("Executando a instrução SQL: \n" + instrucaoSql);
     return database.executar(instrucaoSql);

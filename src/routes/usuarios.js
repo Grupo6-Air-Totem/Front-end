@@ -12,7 +12,8 @@ router.post("/autenticar", function (req, res) {
     usuarioController.autenticar(req, res);
 });
 
-router.get('/listar', usuarioController.listar);
+router.get('/listar/:empresaId/:aeroportoId', usuarioController.listar);
+
 
 router.delete('/deletar/:idUser', usuarioController.deletar);
 

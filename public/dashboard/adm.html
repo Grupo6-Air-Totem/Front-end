@@ -20,6 +20,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="../js/adm.js"></script>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
       </style>
@@ -29,9 +33,8 @@
         <div class="div-menu-lateral">
 
             <div class="div-menu-cabecalhoEmpresa">
-              <img src="../assets/imgs/App Icon.svg" alt="blabla">
+              <!-- <img src="../assets/imgs/App Icon.svg" alt="blabla"> -->
               <p id="nome_empresa"></p>
-              <img src="../assets/imgs/menu_open.svg" alt="">
             </div>
             <div class="div-menu-TipoUsuario">
               <img src="../assets/imgs/Avatar.svg" alt="blabla">
@@ -62,11 +65,6 @@
                   <box-icon name='user-plus' color='#FFFFFF'></box-icon>
                 </a>
               </div>
-              <div class="col-2">
-                <button type="button" class="botaoFiltro">Filtrar
-                  <box-icon name='filter-alt' color='#515151' ></box-icon>
-                </button>
-              </div>
             </div>
           </div>
 
@@ -94,86 +92,111 @@
 
         </div>
 
-<script>
-  function listarUsuarios() {
-    fetch("/usuarios/listar")
-        .then(response => response.json())
-        .then(data => {
-            const tabela = document.querySelector(".table-Totens");
+        <script>
 
-            data.forEach(usuario => {
-                const novaLinha = document.createElement("tr");
-                novaLinha.setAttribute('data-id', usuario.idUser);
+        function listarUsuarios() {
+            var empresaId = sessionStorage.getItem('ID_EMPRESA');
+            var aeroportoId = sessionStorage.getItem('AEROPORTO_ID');
 
-                const tdNome = document.createElement("td");
-                tdNome.textContent = usuario.nomeUsuario;
+            fetch(`/usuarios/listar/${empresaId}/${aeroportoId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const tabela = document.querySelector(".table-Totens tbody");
 
-                const tdEmpresa = document.createElement("td");
-                tdEmpresa.textContent = usuario.nomeEmpresa;
+                data.forEach(usuario => {
+                    const novaLinha = document.createElement("tr");
+                    novaLinha.setAttribute('data-id', usuario.idUser);
 
-                const tdTipo = document.createElement("td");
-                tdTipo.textContent = usuario.nivelAcesso;
+                    const tdNome = document.createElement("td");
+                    tdNome.textContent = usuario.nomeUsuario;
 
-                const tdAcoes = document.createElement("td");
+                    const tdEmpresa = document.createElement("td");
+                    tdEmpresa.textContent = usuario.nomeEmpresa;
 
-                const editLink = document.createElement("a");
-                editLink.href = "#";
-                const editIcon = document.createElement("box-icon");
-                editIcon.setAttribute('name', 'edit');
-                editIcon.setAttribute('type', 'solid');
-                editLink.appendChild(editIcon);
+                    const tdTipo = document.createElement("td");
+                    tdTipo.textContent = usuario.nivelAcesso;
 
-                const deleteLink = document.createElement("a");
-                deleteLink.href = "#";
-                deleteLink.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    deletarUsuario(usuario.idUser, novaLinha);
+                    const tdAcoes = document.createElement("td");
+
+                    const editLink = document.createElement("a");
+                    editLink.href = "#";
+
+                    const deleteLink = document.createElement("a");
+                    deleteLink.href = "#";
+                    deleteLink.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        deletarUsuario(usuario.idUser, novaLinha);
+                    });
+                    const deleteIcon = document.createElement("box-icon");
+                    deleteIcon.setAttribute('name', 'trash');
+                    deleteIcon.setAttribute('color', '#ef3826');
+                    deleteLink.appendChild(deleteIcon);
+
+                    tdAcoes.appendChild(editLink);
+                    tdAcoes.appendChild(deleteLink);
+
+                    novaLinha.appendChild(tdNome);
+                    novaLinha.appendChild(tdEmpresa);
+                    novaLinha.appendChild(tdTipo);
+                    novaLinha.appendChild(tdAcoes);
+
+                    tabela.appendChild(novaLinha);
                 });
-                const deleteIcon = document.createElement("box-icon");
-                deleteIcon.setAttribute('name', 'trash');
-                deleteIcon.setAttribute('color', '#ef3826');
-                deleteLink.appendChild(deleteIcon);
-
-                tdAcoes.appendChild(editLink);
-                tdAcoes.appendChild(deleteLink);
-
-                novaLinha.appendChild(tdNome);
-                novaLinha.appendChild(tdEmpresa);
-                novaLinha.appendChild(tdTipo);
-                novaLinha.appendChild(tdAcoes);
-
-                tabela.appendChild(novaLinha);
+            })
+            .catch(error => {
+                console.error("Erro ao listar usuários:", error);
             });
-        })
-        .catch(error => {
-            console.error("Erro ao listar usuários:", error);
-        });
-}
-
-function deletarUsuario(idUser, linha) {
-    fetch(`/usuarios/deletar/${idUser}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
         }
-    })
-    .then(response => {
-        if (response.ok) {
-            linha.remove();
-            console.log(`Usuário com id ${idUser} deletado com sucesso.`);
-        } else {
-            console.error(`Erro ao deletar o usuário com id ${idUser}.`);
+
+        function deletarUsuario(idUser, linha) {
+            fetch(`/usuarios/deletar/${idUser}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    linha.remove();
+                    console.log(`Usuário com id ${idUser} deletado com sucesso.`);
+                } else {
+                    console.error(`Erro ao deletar o usuário com id ${idUser}.`);
+                }
+            })
+            .catch(error => {
+                console.error(`Erro ao deletar o usuário com id ${idUser}:`, error);
+            });
         }
-    })
-    .catch(error => {
-        console.error(`Erro ao deletar o usuário com id ${idUser}:`, error);
-    });
-}
 
-// Chamar a função ao carregar a página
-window.onload = function() {
-    listarUsuarios();
-};
+        function filtrarUsuarios() {
+            const input = document.getElementById('exampleFormControlInput1');
+            const filter = input.value.toLowerCase();
+            const tabela = document.querySelector(".table-Totens tbody");
+            const linhas = tabela.getElementsByTagName('tr');
 
+            for (let i = 0; i < linhas.length; i++) {
+                let nome = linhas[i].getElementsByTagName("td")[0];
+                let tipo = linhas[i].getElementsByTagName("td")[2];
+                if (nome || tipo) {
+                    let textoNome = nome.textContent || nome.innerText;
+                    let textoTipo = tipo.textContent || tipo.innerText;
+                    if (textoNome.toLowerCase().indexOf(filter) > -1 || textoTipo.toLowerCase().indexOf(filter) > -1) {
+                        linhas[i].style.display = "";
+                    } else {
+                        linhas[i].style.display = "none";
+                    }
+                }       
+            }
+        }
 
-</script>
+        // Adiciona o evento de entrada ao campo de pesquisa para filtrar em tempo real
+        document.getElementById('exampleFormControlInput1').addEventListener('input', filtrarUsuarios);
+
+        // Chama a função para listar os usuários quando a página é carregada
+        window.onload = listarUsuarios;
+    </script>
