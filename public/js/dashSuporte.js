@@ -291,7 +291,7 @@ window.onload = function () {
     var idTerminal = sessionStorage.ID_TERMINAL;
     debugger
         var jsonData = $.ajax({
-      url: `http://localhost:3333/dashSuporteRoute/listarDadosCPU/${idTerminal}/${idEmpresa}`,
+      url: `http://localhost:3334/dashSuporteRoute/listarDadosCPU/${idTerminal}/${idEmpresa}`,
       dataType: "json",
       async: false
     }).responseText;
@@ -337,7 +337,7 @@ window.onload = function () {
     var idTerminal = sessionStorage.ID_TERMINAL;
     var idEmpresa = sessionStorage.ID_EMPRESA;
     var jsonData = $.ajax({
-      url: `http://localhost:3333/dashSuporteRoute/listarDadosMemoria/${idTerminal}/${idEmpresa}`,
+      url: `http://localhost:3334/dashSuporteRoute/listarDadosMemoria/${idTerminal}/${idEmpresa}`,
       dataType: "json",
       async: false
     }).responseText;
@@ -385,7 +385,7 @@ window.onload = function () {
     var idEmpresa = sessionStorage.ID_EMPRESA;
     debugger
     var jsonData = $.ajax({
-      url: `http://localhost:3333/dashSuporteRoute/listarDadosRede/${idTerminal}/${idEmpresa}`,
+      url: `http://localhost:3334/dashSuporteRoute/listarDadosRede/${idTerminal}/${idEmpresa}`,
       dataType: "json",
       async: false
     }).responseText;

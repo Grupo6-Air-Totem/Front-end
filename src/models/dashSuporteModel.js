@@ -43,19 +43,25 @@ JOIN
             diaHorario IN (SELECT MAX(diaHorario) FROM HistoricoStatus GROUP BY fk_totem)
     ) AS hs ON hs.fk_totem = t.idTotem
 WHERE 
-    hs.statusTotem = "Ativo" AND e.idEmpresa = '${empresa}' AND t.fk_terminal = '${idTerminal}'
+    hs.statusTotem = 'Ativo' AND e.idEmpresa = '${empresa}' AND t.fk_terminal = '${idTerminal}'
 AND
-    (t.idTotem, h.idHistorico) IN (
-        SELECT 
-            t.idTotem,
-            MAX(h.idHistorico)
-        FROM 
-            totem AS t
-        JOIN 
-            Historico AS h ON h.fk_totem = t.idTotem
-        GROUP BY 
-            t.idTotem
+    EXISTS (
+        SELECT 1
+        FROM (
+            SELECT 
+                t.idTotem,
+                MAX(h.idHistorico) AS max_idHistorico
+            FROM 
+                totem AS t
+            JOIN 
+                Historico AS h ON h.fk_totem = t.idTotem
+            GROUP BY 
+                t.idTotem
+        ) AS sub
+        WHERE 
+            sub.idTotem = t.idTotem AND sub.max_idHistorico = h.idHistorico
     );
+
 
 `
 console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -64,37 +70,54 @@ return database.executar(instrucaoSql);
 
 function listarStatusManutencao(idTerminal, idEmpresa){
 	var instrucaoSql = `
-    select 
-    t.fk_empresa as FK_EMPRESA,
-    t.fk_terminal as FK_TERMINAL,
-    t.fk_aeroporto as FK_AEROPORTO,
-    t.idTotem as ID_TOTEM,
-    DATE_FORMAT(hs.colocadoManutencao, '%d/%m/%Y') as ENTRADA_MANU,
-    hs.statusTotem as STATUS_TOTEM
-from totem as t
-join empresa as e on t.fk_empresa = e.idEmpresa
-join aeroporto as a on t.fk_aeroporto = a.idAero
-join terminal as ter on t.fk_terminal = ter.idTerminal
-join HistoricoStatus as hs on hs.fk_totem = t.idTotem
-where (hs.statusTotem = "Manutenção" or hs.statusTotem = "Inativo") and e.idEmpresa = '${idEmpresa}' and t.fk_terminal = '${idTerminal}';`
+    SELECT 
+    t.fk_empresa AS FK_EMPRESA,
+    t.fk_terminal AS FK_TERMINAL,
+    t.fk_aeroporto AS FK_AEROPORTO,
+    t.idTotem AS ID_TOTEM,
+    CONVERT(varchar, hs.colocadoManutencao, 103) AS ENTRADA_MANU,
+    hs.statusTotem AS STATUS_TOTEM
+FROM 
+    totem AS t
+JOIN 
+    empresa AS e ON t.fk_empresa = e.idEmpresa
+JOIN 
+    aeroporto AS a ON t.fk_aeroporto = a.idAero
+JOIN 
+    terminal AS ter ON t.fk_terminal = ter.idTerminal
+JOIN 
+    HistoricoStatus AS hs ON hs.fk_totem = t.idTotem
+WHERE 
+    (hs.statusTotem = 'Manutenção' OR hs.statusTotem = 'Inativo') AND e.idEmpresa = '${idEmpresa}' AND t.fk_terminal = '${idTerminal}';
+`
 console.log("Executando a instrução SQL: \n" + instrucaoSql);
 return database.executar(instrucaoSql);
 }
 
 function listarDadosKpis(empresa,terminal){
 	var instrucaoSql = `
-	select e.idEmpresa, ter.idTerminal, Count(t.idTotem) as TOTAL_TOTENS,
-	COUNT(CASE WHEN h.statusTotem = 'Inativo' then 1 end) as TOTAL_TOTENS_INATIVOS,
-    COUNT(CASE WHEN h.statusTotem = 'Manutenção' THEN 1 END) AS TOTAL_TOTENS_MANU,
-	COUNT(CASE WHEN h.statusTotem = 'Ativo' THEN 1 END) AS TOTAL_TOTENS_ATIVOS from totem as t join terminal as ter 
-on t.fk_Terminal = ter.idTerminal join empresa as e on
-t.fk_empresa = e.idEmpresa join aeroporto as a
-on t.fk_aeroporto = a.idAero
-join historicostatus as h
-on h.fk_totem = t.idTotem
-where e.idEmpresa = '${empresa}' and ter.idTerminal = '${terminal}'
-group by
-	ter.idTerminal;`
+	SELECT 
+    e.idEmpresa,
+    ter.idTerminal,
+    COUNT(t.idTotem) AS TOTAL_TOTENS,
+    SUM(CASE WHEN h.statusTotem = 'Inativo' THEN 1 ELSE 0 END) AS TOTAL_TOTENS_INATIVOS,
+    SUM(CASE WHEN h.statusTotem = 'Manutenção' THEN 1 ELSE 0 END) AS TOTAL_TOTENS_MANU,
+    SUM(CASE WHEN h.statusTotem = 'Ativo' THEN 1 ELSE 0 END) AS TOTAL_TOTENS_ATIVOS 
+FROM 
+    totem AS t 
+JOIN 
+    terminal AS ter ON t.fk_Terminal = ter.idTerminal 
+JOIN 
+    empresa AS e ON t.fk_empresa = e.idEmpresa 
+JOIN 
+    aeroporto AS a ON t.fk_aeroporto = a.idAero 
+JOIN 
+    historicostatus AS h ON h.fk_totem = t.idTotem 
+WHERE 
+    e.idEmpresa = '${empresa}' AND ter.idTerminal = '${terminal}'
+GROUP BY
+    e.idEmpresa, ter.idTerminal;
+`
 
 console.log("Executando a instrução SQL: \n" + instrucaoSql);
 return database.executar(instrucaoSql);
@@ -131,11 +154,13 @@ JOIN
 JOIN 
     metrica a ON tr.fk_empresa = a.fk_empresa
 WHERE
-    e.idEmpresa = '${idEmpresa}' AND t.fk_terminal = '${idTerminal}'
+    e.idEmpresa = 2 AND t.fk_terminal = 2
 GROUP BY
     e.idEmpresa,
     tr.idTerminal,
-    aero.nome;
+    aero.nome,
+    h.fk_Terminal;
+
 `
 console.log("Executando a instrução SQL: \n" + instrucaoSql);
 return database.executar(instrucaoSql);
@@ -229,7 +254,9 @@ WHERE
 GROUP BY
     e.idEmpresa,
     tr.idTerminal,
-    aero.nome;
+    aero.nome,
+    h.fk_Terminal;
+
 
 `
 console.log("Executando a instrução SQL: \n" + instrucaoSql);
@@ -240,43 +267,45 @@ function autenticar(terminal){
 	
 	var instrucaoSql = `
 
-	select 
-	ter.idTerminal,
+	SELECT 
+    ter.idTerminal,
     COUNT(t.idTotem) as TotalTotens
-from
-	totem as t
-join 
-	HistoricoStatus as h
-on
-	h.fk_Totem = t.idTotem
-join 
-	Terminal as ter
-on 
-	h.fk_Terminal = '${terminal}'
-where 
-	ter.idTerminal = '${terminal}'
-group by
-	ter.idTerminal;
+FROM
+    totem as t
+JOIN 
+    HistoricoStatus as h ON h.fk_Totem = t.idTotem
+JOIN 
+    Terminal as ter ON h.fk_Terminal = ter.idTerminal
+WHERE 
+    ter.idTerminal = '${terminal}'
+GROUP BY
+    ter.idTerminal;
+
 	`
 	return database.executar(instrucaoSql);
 
 }
 
 function autenticarTotem(totem,idEmpresa,idTerminal){
-    var instrucaoSql = `select 
-	t.idTotem as ID_TOTEM,
-    e.nome as NOME_EMPRESA,
-    t.tempo_atv as TEMPO_ATIVIDADE,
-    t.modeloProcessador as MODELO_PROCESSADOR,
-    t.so as SISTEMA_OPERACIONAL,
-    t.memoriaTotal as MEMORIA_RAM,
-    t.hostRede as HOST_REDE
-FROM totem as t
-join empresa as e
-on t.fk_empresa = e.idEmpresa
-join terminal as ter
-on t.fk_terminal = ter.idTerminal
-where t.fk_empresa = '${idEmpresa}' and ter.idTerminal = '${idTerminal}' and t.idTotem = '${totem}';`
+    var instrucaoSql = `
+    SELECT 
+    t.idTotem AS ID_TOTEM,
+    e.nome AS NOME_EMPRESA,
+    t.tempo_atv AS TEMPO_ATIVIDADE,
+    t.modeloProcessador AS MODELO_PROCESSADOR,
+    t.so AS SISTEMA_OPERACIONAL,
+    t.memoriaTotal AS MEMORIA_RAM,
+    t.hostRede AS HOST_REDE
+FROM 
+    totem AS t
+JOIN 
+    empresa AS e ON t.fk_empresa = e.idEmpresa
+JOIN 
+    terminal AS ter ON t.fk_terminal = ter.idTerminal
+WHERE 
+    t.fk_empresa = '${idEmpresa}' AND ter.idTerminal = '${idTerminal}' AND t.idTotem = '${totem}';
+
+`
 
 return database.executar(instrucaoSql);
 
