@@ -271,18 +271,20 @@ window.onload = function () {
     
     jsonResp.forEach((totemStatus) => {
       debugger
-      const total = totemStatus.TOTAL_TOTENS;
-      const ativo = (totemStatus.TOTAL_TOTENS_ATIVOS / total) * 100;
-      const parado = ((totemStatus.TOTAL_TOTENS_MANU + totemStatus.TOTAL_TOTENS_INATIVOS) / total) * 100;
+      let total = totemStatus.TOTAL_TOTENS;
+      let ativo = (totemStatus.TOTAL_TOTENS_ATIVOS / total) * 100;
+      let parado = ((totemStatus.TOTAL_TOTENS_MANU + totemStatus.TOTAL_TOTENS_INATIVOS) / total) * 100;
 
-      progressBarSuccess.style.width = `${ativo}%`;
-      progressBarSuccess.textContent = `${ativo.toFixed(1)}%`;
+      if (parado === 0) {
+        ativo = 100;
+        parado = 0; // Define parado como 0%
+    }
 
-      progressBarWarning.style.width = `${parado}%`;
-      progressBarWarning.textContent = `${parado.toFixed(1)}%`;
+    progressBarSuccess.style.width = `${ativo}%`;
+    progressBarSuccess.textContent = `${ativo.toFixed(1)}%`;
 
-        boxprogress.style.width = ativo;
-        boxprogress.style.width = parado;
+    progressBarWarning.style.width = `${parado}%`;
+    progressBarWarning.textContent = `${parado.toFixed(1)}%`;
       })
 }
   

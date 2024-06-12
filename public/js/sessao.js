@@ -20,11 +20,13 @@ function validarSessao() {
     var porcentInativoSpan = document.getElementById("porcent_Inativo");
     var porcentManutencaoSpan = document.getElementById("porcent_manutencao");
 
-    const porcentA = (totalAtivo/totalTotemEmp) * 100;
-    const porcentI = (totalInativo/totalTotemEmp) * 100;
-    const porcentM = (totalManu/totalTotemEmp) * 100;
+    function roundUpToOneDecimal(num) {
+        return Math.ceil(num * 10) / 10;
+    }
 
-
+    const porcentA = roundUpToOneDecimal((totalAtivo / totalTotemEmp) * 100);
+    const porcentI = roundUpToOneDecimal((totalInativo / totalTotemEmp) * 100);
+    const porcentM = roundUpToOneDecimal((totalManu / totalTotemEmp) * 100);
 
     spanEmpresa.innerHTML = nomeEmpresa;
     qtdTotalTotens.innerHTML = totalTotemEmp;
@@ -32,9 +34,10 @@ function validarSessao() {
     qtdTotemAtv.innerHTML = totalAtivo;
     qtdTotemInt.innerHTML = totalInativo;
 
-    porcentAtivoSpan.innerHTML = porcentA + "% do total de totens";
-    porcentInativoSpan.innerHTML = porcentI + "% do total de totens";
-    porcentManutencaoSpan.innerHTML = porcentM + "% do total de totens";
+
+    porcentAtivoSpan.innerHTML = porcentA.toFixed(0) + "% do total de totens";
+    porcentInativoSpan.innerHTML = porcentI.toFixed(0) + "% do total de totens";
+    porcentManutencaoSpan.innerHTML = porcentM.toFixed(0) + "% do total de totens";
 
     qtdTotalTotens.style.color = "#3478C7";
     qtdTotemManu.style.color = "#3478C7";
