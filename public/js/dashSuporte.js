@@ -7,8 +7,8 @@ google.charts.setOnLoadCallback(plotarDashRede);
 
 window.onload = function () {
     obterDadosKpis(),
-    obterDadosTabelaTotem(),
     obterDadosTabelaManutencao(),
+    obterDadosTabelaTotem(),
     validarSessaoTerminal();
   };
   
@@ -265,13 +265,12 @@ window.onload = function () {
 
     console.log("Dados recebidos: ", JSON.stringify(jsonResp));
 
-    
     const boxprogress = document.querySelector(".progress");
     const progressBarSuccess = document.querySelector(".progress-bar.bg-success");
     const progressBarWarning = document.querySelector(".progress-bar.bg-warning");
     
     jsonResp.forEach((totemStatus) => {
-      
+      debugger
       const total = totemStatus.TOTAL_TOTENS;
       const ativo = (totemStatus.TOTAL_TOTENS_ATIVOS / total) * 100;
       const parado = ((totemStatus.TOTAL_TOTENS_MANU + totemStatus.TOTAL_TOTENS_INATIVOS) / total) * 100;
@@ -290,11 +289,13 @@ window.onload = function () {
   function plotarDashCPU(){
     var idEmpresa = sessionStorage.ID_EMPRESA;
     var idTerminal = sessionStorage.ID_TERMINAL;
+    debugger
         var jsonData = $.ajax({
-      url: `http://localhost:3334/dashSuporteRoute/listarDadosCPU/${idTerminal}/${idEmpresa}`,
+      url: `http://localhost:3333/dashSuporteRoute/listarDadosCPU/${idTerminal}/${idEmpresa}`,
       dataType: "json",
       async: false
     }).responseText;
+
     var data = JSON.parse(jsonData);
     console.log(data);
 
@@ -305,7 +306,7 @@ window.onload = function () {
     dataCpu.addRows([
       ['Ok', Number(data[0].totens_ok)],
       ['Lento', Number(data[0].totens_lentos)],
-      ['Alerta', Number(data[0].totens_alerta)]
+      ['Alerta', Number(data[0].totens_em_alerta)]
     ])
   
     var options = {
@@ -336,7 +337,7 @@ window.onload = function () {
     var idTerminal = sessionStorage.ID_TERMINAL;
     var idEmpresa = sessionStorage.ID_EMPRESA;
     var jsonData = $.ajax({
-      url: `http://localhost:3334/dashSuporteRoute/listarDadosMemoria/${idTerminal}/${idEmpresa}`,
+      url: `http://localhost:3333/dashSuporteRoute/listarDadosMemoria/${idTerminal}/${idEmpresa}`,
       dataType: "json",
       async: false
     }).responseText;
@@ -351,7 +352,7 @@ window.onload = function () {
     dataMemoria.addRows([
       ['Ok', Number(data[0].totens_ok)],
       ['Lento', Number(data[0].totens_lentos)],
-      ['Alerta', Number(data[0].totens_alerta)]
+      ['Alerta', Number(data[0].totens_em_alerta)]
     ])
   
     var options = {
@@ -382,8 +383,9 @@ window.onload = function () {
   function plotarDashRede(){
     var idTerminal = sessionStorage.ID_TERMINAL;
     var idEmpresa = sessionStorage.ID_EMPRESA;
+    debugger
     var jsonData = $.ajax({
-      url: `http://localhost:3334/dashSuporteRoute/listarDadosRede/${idTerminal}/${idEmpresa}`,
+      url: `http://localhost:3333/dashSuporteRoute/listarDadosRede/${idTerminal}/${idEmpresa}`,
       dataType: "json",
       async: false
     }).responseText;
