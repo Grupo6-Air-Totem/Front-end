@@ -707,4 +707,14 @@ background-color: #E9EBF0;
     margin-top: 5px;
 
 }
-
+#metricas .row-1{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.conteudo{
+    display: grid;
+    justify-items: center;
+}
+.tituloCadastro{
+    padding: 64px 0px 24px 0px;
+}
