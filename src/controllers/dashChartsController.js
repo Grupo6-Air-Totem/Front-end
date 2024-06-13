@@ -77,10 +77,31 @@ function atualizarStatusAtivo(req, res) {
         });
 }
 
+function listarDadosCPU(req,res){
+    var idEmpresa = req.params.idEmpresa;
+    var idTotem = req.params.idTotem;
+    console.log("CHEGUEI CONTROLLER");
+      dashChartsModel
+      .listarDadosCPU(idTotem,idEmpresa)
+      .then(function (resultado) {
+        if (resultado.length > 0) {
+          res.status(200).json(resultado);
+          // res.json(resultado);
+          console.log("CHEGOU CONTROLLER");
+        }
+      })
+      .catch(function (erro) {
+        console.log(erro);
+        res.status(500).json(erro.sqlMessage);
+      });
+  }
+
+
 module.exports = {
     listarDadosKPI,
     verificarStatusManutencao,
     inserirStatusManutencao,
     atualizarStatusManutencao,
-    atualizarStatusAtivo
+    atualizarStatusAtivo,
+    listarDadosCPU
 };

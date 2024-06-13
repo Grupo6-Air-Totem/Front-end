@@ -11,5 +11,9 @@ router.post('/atualizarStatusManutencao/:idTotem', function(req,res){
     dashChartsController.atualizarStatusManutencao(req,res);
 })
 
+router.get('/listarDadosCPU/:idTotem/:idEmpresa', function(req,res){
+    dashChartsController.listarDadosCPU(req,res);
+})
+
 
 module.exports = router;

@@ -294,8 +294,7 @@ window.onload = function () {
   function plotarDashCPU(){ 
     var idEmpresa = sessionStorage.ID_EMPRESA;
     var idTerminal = sessionStorage.ID_TERMINAL;
-    debugger
-        var jsonData = $.ajax({
+      var jsonData = $.ajax({
       url: `http://localhost:8080/dashSuporteRoute/listarDadosCPU/${idTerminal}/${idEmpresa}`,
       dataType: "json",
       async: false

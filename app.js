@@ -20,7 +20,7 @@ var usuarioRouter = require("./src/routes/usuarios");
 var dashGeralRouter = require("./src/routes/dashGeralRoute");
 var dashSuporteRouter = require("./src/routes/dashSuporteRoute");
 var dashChartsRouter = require("./src/routes/dashChartsRoute");
-
+debugger
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));

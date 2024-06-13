@@ -104,6 +104,17 @@ function atualizarStatusManutencao(idTotem, novoStatus, campoData) {
     return database.executar(instrucaoSQL);
 }
 
+function listarDadosCPU(idTotem,idEmpresa){
+    var instrucaoSQL = `SELECT TOP 1 h.idHistorico as ID_HISTORICO, h.usoProcessador as USO_CPU, e.idEmpresa 
+FROM totem as t 
+JOIN historico as h ON h.fk_totem = t.idTotem 
+JOIN empresa as e ON t.fk_empresa = e.idEmpresa 
+WHERE t.idTotem = '${idTotem}'
+  AND e.idEmpresa = '${idEmpresa}'
+ORDER BY h.idHistorico DESC;` 
+
+return database.executar(instrucaoSQL);
+}
 
 
 
@@ -122,5 +133,6 @@ module.exports = {
     verificarStatusManutencao,
     inserirStatusManutencao,
     atualizarStatusManutencao,
+    listarDadosCPU,
     atualizarStatusAtivo
 };

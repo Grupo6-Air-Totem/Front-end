@@ -154,7 +154,7 @@ JOIN
 JOIN 
     metrica a ON tr.fk_empresa = a.fk_empresa
 WHERE
-    e.idEmpresa = 2 AND t.fk_terminal = 2
+    e.idEmpresa = '${idEmpresa}' AND t.fk_terminal = '${idTerminal}'
 GROUP BY
     e.idEmpresa,
     tr.idTerminal,
