@@ -265,13 +265,16 @@ window.onload = function () {
 
     console.log("Dados recebidos: ", JSON.stringify(jsonResp));
 
+
     const boxprogress = document.querySelector(".progress");
     const progressBarSuccess = document.querySelector(".progress-bar.bg-success");
     const progressBarWarning = document.querySelector(".progress-bar.bg-warning");
+    var totalTotens = document.getElementById ("total_totens")
     
     jsonResp.forEach((totemStatus) => {
-      debugger
+
       let total = totemStatus.TOTAL_TOTENS;
+      totalTotens.innerHTML = total;
       let ativo = (totemStatus.TOTAL_TOTENS_ATIVOS / total) * 100;
       let parado = ((totemStatus.TOTAL_TOTENS_MANU + totemStatus.TOTAL_TOTENS_INATIVOS) / total) * 100;
 

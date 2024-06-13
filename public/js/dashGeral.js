@@ -217,45 +217,51 @@ function obterDadosKpis() {
         );
       }
     })
-  }
+}
 
 function plotarKPIGeral(jsonResp){
 
+  var nomeEmpresa = document.getElementById("nome_empresa")
+  nomeEmpresa.innerHTML = sessionStorage.NOME_EMPRESA;
+
     jsonResp.forEach((totemStatus) => {
       
-      const colDiv = document.createElement('div');
-        colDiv.className = 'col';
-      
-        // Cria a div com a classe 'card'
-        const cardDiv = document.createElement('div');
-        cardDiv.className = 'card';
-    
-        // Cria a div com a classe 'card-body'
-        const cardBodyDiv = document.createElement('div');
-        cardBodyDiv.className = 'card-body';
-    
-        // Cria o elemento h5 e define seu texto
-        const h5 = document.createElement('h5');
-        h5.textContent = 'Qtd total de totens';
-    
-        // Cria o elemento h3 e define seu id
-        const h3 = document.createElement('h3');
-        h3.id = 'totalEmpresa';
-      
-      let total = totemStatus.TOTAL_TOTENS;
-      let ativo = (totemStatus.TOTAL_TOTENS_ATIVOS / total) * 100;
-      let parado = ((totemStatus.TOTAL_TOTENS_MANU + totemStatus.TOTAL_TOTENS_INATIVOS) / total) * 100;
+      var totalEmpresa = document.getElementById("totalEmpresa");
+      var totalAtivo = document.getElementById("totens_ativos");
+      var totalInativo = document.getElementById("totens_inativo");
+      var totalManutencao = document.getElementById("totens_manutencao");
+      var porcentAtivo = document.getElementById("porcent_ativo");
+      var porcentInativo = document.getElementById("porcent_inativo");
+      var porcentManutencao = document.getElementById("porcent_manutencao");
 
-      if (parado === 0) {
-        ativo = 100;
-        parado = 0; // Define parado como 0%
+      totalEmpresa.innerHTML = totemStatus.TOTAL_TOTENS_EMPRESA;
+      totalEmpresa.style.color = "#3478C7";
+      totalAtivo.innerHTML = "Qtd totem: " + totemStatus.TOTAL_TOTENS_ATIVOS;
+      totalAtivo.style.color = "#3478C7";
+      totalAtivo.style.fontSize = "20px"
+      totalInativo.innerHTML ="Qtd totem: " + totemStatus.TOTAL_TOTENS_INATIVOS;
+      totalInativo.style.color = "#3478C7";
+      totalInativo.style.fontSize = "20px";
+      totalManutencao.innerHTML ="Qtd totem: " + totemStatus.TOTAL_TOTENS_MANU;
+      totalManutencao.style.color = "#3478C7";
+      totalManutencao.style.fontSize = "20px";
+      function roundUpToOneDecimal(num) {
+        return Math.ceil(num * 10) / 10;
       }
 
-      cardBodyDiv.appendChild(h5);
-      cardBodyDiv.appendChild(h3);
-      cardDiv.appendChild(cardBodyDiv);
-      colDiv.appendChild(cardDiv);
-  
+      debugger
+      let porcentA = roundUpToOneDecimal((totemStatus.TOTAL_TOTENS_ATIVOS / totemStatus.TOTAL_TOTENS_EMPRESA) * 100);
+      let porcentI = roundUpToOneDecimal(( totemStatus.TOTAL_TOTENS_INATIVOS/ totemStatus.TOTAL_TOTENS_EMPRESA) * 100);
+      let porcentM = roundUpToOneDecimal((totemStatus.TOTAL_TOTENS_MANU / totemStatus.TOTAL_TOTENS_EMPRESA) * 100);
+
+      porcentAtivo.innerHTML = porcentA.toFixed(0) + "%";
+      porcentAtivo.style.color = "green"
+      porcentInativo.innerHTML = porcentI.toFixed(0) + "%";
+      porcentInativo.style.color = "red"
+      porcentManutencao.innerHTML = porcentM.toFixed(0) + "%";
+      porcentManutencao.style.color = "orange"
+
+
 
     });
 
