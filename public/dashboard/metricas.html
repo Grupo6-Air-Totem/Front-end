@@ -94,7 +94,7 @@
 
                   </div>
                   <div class="div-botaoAdd">
-                  <button type="button" class="btn btn-primary" onclick="cadastrarUsuario()">Adicionar</button>
+                  <button type="button" class="btn btn-primary" onclick="cadastrarMetricas()">Adicionar</button>
                   </div>
                 </div>
             </div>
@@ -103,20 +103,59 @@
 </div>
 
 <script>
-  let tipoUsuarioSelecionado = '';
-  let aeroportoSelecionado = '';
 
-  function selecionarTipo(tipo) {
-    tipoUsuarioSelecionado = tipo;
-    document.getElementById('botaoTipo').innerText = tipo;
-  }
+ function cadastrarMetricas() {
+    var cpuAlert = document.getElementById("iptNome").value;
+    var sobrenomeVar = document.getElementById("iptSobrenome").value;
+    var emailVar = document.getElementById("iptEmail").value;
+    var cpfVar = document.getElementById("iptCPF").value;
+    var celularVar = document.getElementById("iptCelular").value;
+    var nivelAcessoVar = document.getElementById("botaoTipo").innerText.trim();
+    var fk_empresa = sessionStorage.ID_EMPRESA;
+    var fk_aeroporto = sessionStorage.AEROPORTO_ID;
 
-  function selecionarAeroporto(aeroporto) {
-    aeroportoSelecionado = aeroporto;
-    document.getElementById('botaoAeroporto').innerText = aeroporto;
-  }
+    console.log("Dados do Formulário: ", nomeVar, sobrenomeVar, emailVar, cpfVar, celularVar, nivelAcessoVar, fk_empresa, fk_aeroporto);
 
-  function cadastrarUsuario() {
+    fetch("/usuarios/cadastrar", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            nomeServer: nomeVar,
+            sobrenomeServer: sobrenomeVar,
+            emailServer: emailVar,
+            cpfServer: cpfVar,
+            celularServer: celularVar,
+            nivelAcessoServer: nivelAcessoVar,
+            empresaIdServer: fk_empresa,
+            aeroportoIdServer: fk_aeroporto
+        })
+    }).then(function (resposta) {
+        console.log("ESTOU NO THEN DO cadastrarUsuario!");
+
+        if (resposta.ok) {
+            console.log("Usuário cadastrado com sucesso!");
+
+            resposta.json().then(json => {
+                console.log(json);
+                alert("Usuário cadastrado com sucesso!");
+            });
+
+        } else {
+            console.log("Houve um erro ao tentar cadastrar o usuário!");
+
+            resposta.text().then(texto => {
+                console.error(texto);
+            });
+        }
+
+    }).catch(function (erro) {
+        console.log(erro);
+    });
+
+    return false;
+}
     var nomeVar = document.getElementById("iptNome").value;
     var sobrenomeVar = document.getElementById("iptSobrenome").value;
     var emailVar = document.getElementById("iptEmail").value;
