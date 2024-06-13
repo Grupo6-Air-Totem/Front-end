@@ -288,12 +288,12 @@ window.onload = function () {
       })
 }
   
-  function plotarDashCPU(){
+  function plotarDashCPU(){ 
     var idEmpresa = sessionStorage.ID_EMPRESA;
     var idTerminal = sessionStorage.ID_TERMINAL;
     debugger
         var jsonData = $.ajax({
-      url: `http://localhost:3334/dashSuporteRoute/listarDadosCPU/${idTerminal}/${idEmpresa}`,
+      url: `http://localhost:8080/dashSuporteRoute/listarDadosCPU/${idTerminal}/${idEmpresa}`,
       dataType: "json",
       async: false
     }).responseText;
@@ -339,7 +339,7 @@ window.onload = function () {
     var idTerminal = sessionStorage.ID_TERMINAL;
     var idEmpresa = sessionStorage.ID_EMPRESA;
     var jsonData = $.ajax({
-      url: `http://localhost:3334/dashSuporteRoute/listarDadosMemoria/${idTerminal}/${idEmpresa}`,
+      url: `http://localhost:8080/dashSuporteRoute/listarDadosMemoria/${idTerminal}/${idEmpresa}`,
       dataType: "json",
       async: false
     }).responseText;
@@ -387,7 +387,7 @@ window.onload = function () {
     var idEmpresa = sessionStorage.ID_EMPRESA;
     debugger
     var jsonData = $.ajax({
-      url: `http://localhost:3334/dashSuporteRoute/listarDadosRede/${idTerminal}/${idEmpresa}`,
+      url: `http://localhost:8080/dashSuporteRoute/listarDadosRede/${idTerminal}/${idEmpresa}`,
       dataType: "json",
       async: false
     }).responseText;

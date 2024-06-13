@@ -1,12 +1,9 @@
-window.onload = function (){
-  obterDadosKpis(),
-  obterDadosTabelaTerminal();
-}
 
-async function obterDadosTabelaTerminal() {
+
+function obterDadosTabelaTerminal() {
   var idEmpresa = sessionStorage.ID_EMPRESA;
   console.log("ESTOU NO OBTER DATDOS TABELA TERMINAL")
-  await fetch(`/dashGeralRoute/listarTerminalStatus/${idEmpresa}`, { cache: "no-store" })
+  fetch(`/dashGeralRoute/listarTerminalStatus/${idEmpresa}`, { cache: "no-store" })
     .then(function (response) {
       if (response.ok) {
         console.log("RESPOSTA OK")
@@ -191,10 +188,10 @@ function autenticarTerminal(idTerminal) {
   return false;
 }
 
-async function obterDadosKpis() {
+function obterDadosKpis() {
   var idEmpresa = sessionStorage.ID_EMPRESA;
   console.log("idEmpresaaa",idEmpresa);
-    await fetch(`/dashGeralRoute/listarDadosKpis/${idEmpresa}`, { cache: "no-store" })
+    fetch(`/dashGeralRoute/listarDadosKpis/${idEmpresa}`, { cache: "no-store" })
     .then(function (resposta){
       if(resposta.ok){
         console.log(resposta);
@@ -206,7 +203,7 @@ async function obterDadosKpis() {
             sessionStorage.TOTAL_TOTENS_MANUTENCAO = jsonResp[0].TOTAL_TOTENS_MANU;
             sessionStorage.TOTAL_TOTENS_INATIVOS = jsonResp[0].TOTAL_TOTENS_INATIVOS;
             
-            // plotarKPIGeral(jsonResp);
+            plotarKPIGeral(jsonResp);
 
           }else{
             console.log("Json está vazio!");
@@ -222,4 +219,48 @@ async function obterDadosKpis() {
     })
   }
 
+function plotarKPIGeral(jsonResp){
+
+    jsonResp.forEach((totemStatus) => {
+      
+      const colDiv = document.createElement('div');
+        colDiv.className = 'col';
+      
+        // Cria a div com a classe 'card'
+        const cardDiv = document.createElement('div');
+        cardDiv.className = 'card';
+    
+        // Cria a div com a classe 'card-body'
+        const cardBodyDiv = document.createElement('div');
+        cardBodyDiv.className = 'card-body';
+    
+        // Cria o elemento h5 e define seu texto
+        const h5 = document.createElement('h5');
+        h5.textContent = 'Qtd total de totens';
+    
+        // Cria o elemento h3 e define seu id
+        const h3 = document.createElement('h3');
+        h3.id = 'totalEmpresa';
+      
+      let total = totemStatus.TOTAL_TOTENS;
+      let ativo = (totemStatus.TOTAL_TOTENS_ATIVOS / total) * 100;
+      let parado = ((totemStatus.TOTAL_TOTENS_MANU + totemStatus.TOTAL_TOTENS_INATIVOS) / total) * 100;
+
+      if (parado === 0) {
+        ativo = 100;
+        parado = 0; // Define parado como 0%
+      }
+
+      cardBodyDiv.appendChild(h5);
+      cardBodyDiv.appendChild(h3);
+      cardDiv.appendChild(cardBodyDiv);
+      colDiv.appendChild(cardDiv);
+  
+
+    });
+
+
+    // Monta a estrutura de elementos
+   
+}
 

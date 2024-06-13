@@ -1,4 +1,4 @@
-function validarSessao() {
+async function validarSessao() {
     var email = sessionStorage.EMAIL_USUARIO;
     var nome = sessionStorage.NOME_USUARIO;
     var nomeEmpresa = sessionStorage.NOME_EMPRESA;
@@ -47,8 +47,6 @@ function validarSessao() {
     console.log(idAero)
     console.log("passou aquiii");
 
-    console.log(spanEmpresa);
-    b_usuario.innerHTML = "";
 
     if (email != null && nome != null) {
         b_usuario.innerHTML = nivelAcesso;

@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="./css/login.css">
     <link rel="shortcut icon" href="../assets/icon/IconAirTotem.ico.jpg">
     <script src="../js/sessao.js"></script>
+    <script type="text/javascript" src="..//js/dashGeral.js"></script>
+
 
 </head>
 
@@ -92,15 +94,19 @@ function entrar() {
               
                 acessoLiberado();
 
+
+
                 setTimeout(function () {
                     if(json.nivelAcesso === 'Suporte'){
                         window.location = "./dashboard/geralSuporte.html";
+
                     } else if(json.nivelAcesso === 'Gerente'){
                         window.location = "./dashboard/dashGerente.html";
                     } else {
                         window.location = "./dashboard/adm.html";
                     }
                 }, 2000);
+
 
             });
 

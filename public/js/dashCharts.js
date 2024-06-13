@@ -142,6 +142,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
 function atualizarStatusManutencao(acao){
     var idTotem = sessionStorage.ID_TOTEM;
+    debugger
     fetch(`/dashChartsRoute/atualizarStatusManutencao/${idTotem}`,{
         method: 'POST',
         headers: {
