@@ -1,6 +1,14 @@
 window.onload = function (){
     dadosTotem();
     obterDadosKPIGeral();
+    // Attach event listeners to buttons
+    document.getElementById('tirarManutencaoBtn').addEventListener('click', function() {
+        updateMaintenanceStatus('remover');
+    });
+
+    document.getElementById('colocarManutencaoBtn').addEventListener('click', function() {
+        updateMaintenanceStatus('adicionar');
+    });
 } 
 
 function dadosTotem(){
@@ -12,7 +20,7 @@ function dadosTotem(){
     var hostrede = sessionStorage.HOST_REDE;
     var modelo_processador = sessionStorage.MODELO_PROCESSADOR;
 
-    var spanEmpresa = document.getElementById("nome_empresa")
+    var spanEmpresa = document.getElementById("nome_empresa");
     var spanTotem = document.getElementById("id_totem");
     var spanSO = document.getElementById("sistema_operacional");
     var spanTempoAtv = document.getElementById("tempo_atividade");
@@ -27,8 +35,7 @@ function dadosTotem(){
     spanMemoriaRam.innerHTML = memoriaram;
     spanHost.innerHTML = hostrede;
     spanProcessador.innerHTML = modelo_processador;
-    console.log("NOME EMPRESa: "+ spanEmpresa)
-
+    console.log("NOME EMPRESA: "+ spanEmpresa);
 }
 
 function obterDadosKPIGeral() {
@@ -36,7 +43,6 @@ function obterDadosKPIGeral() {
   fetch(`/dashChartsRoute/listarDadosKPI/${idTotem}`, { cache: 'no-store' })
   .then(function (resposta) {
     if (resposta.ok) {
-        console.log(`AAA`);
       resposta.json().then(function (resposta) {
         if (resposta.length > 0) {
           sessionStorage.STATUS_CPU = resposta[0].status_cpu;
@@ -70,10 +76,7 @@ function plotarKPIGeral(resposta){
 
     console.log("Dados recebidos: ", JSON.stringify(resposta));
 
-
-
     resposta.forEach(totemStatus => {
-        
         var statusCPU = totemStatus.status_cpu;
         var statusREDE = totemStatus.status_rede;
         var statusMemoria = totemStatus.status_memoria;
@@ -93,7 +96,6 @@ function plotarKPIGeral(resposta){
         }else{
             corStatus.style.color = "#FFFF00";
         }
-        
 
         if(statusCPU == "ALERTA"){
             corCPU.style.color = "#FF0000";
@@ -118,53 +120,30 @@ function plotarKPIGeral(resposta){
         }else{
             corMEMORIA.style.color = "#FFFF00";
         }
-
-
     });
-    
-
-
 }
 
-document.addEventListener('DOMContentLoaded', function(){
-    var tirarManutencaoBtn = document.getElementById("tirarManutencaoBtn");
-    var colocarManutencaoBtn = document.getElementById("colocarManutencaoBtn");
+function updateMaintenanceStatus(action) {
+    let now = new Date();
+    let formattedDate = now.toISOString().slice(0, 19).replace('T', ' '); // Format date as YYYY-MM-DD HH:MM:SS
 
-    tirarManutencaoBtn.addEventListener('click', function(){
-        atualizarStatusManutencao('remover');
-    })
-
-    colocarManutencaoBtn.addEventListener('click', function(){
-        atualizarStatusManutencao('colocar');
-    })
-
-});
-
-function atualizarStatusManutencao(acao){
-    var idTotem = sessionStorage.ID_TOTEM;
-    debugger
-    fetch(`/dashChartsRoute/atualizarStatusManutencao/${idTotem}`,{
+    fetch(`/dashChartsRoute/atualizarStatusManutencao/${sessionStorage.ID_TOTEM}`, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-          },
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
-            acao : acao
+            acao: action,
+            date: formattedDate
         })
     })
-    .then(function (response){
-        if(response.ok){
-            console.log("RESPOSTA: " + response.json());
-        return response.json();
-        }else{
-            throw new error('Erro ao atualizar status de manutenção');
-        }
-    }).then(function (data){
-        console.log('Status de manutenção atualizado com sucesso', data);
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        // Após atualização, recarregar os dados
+        obterDadosKPIGeral();
     })
-    .catch(function (error){
-        console.error("Erro:", error);
-    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
 }
-
-
