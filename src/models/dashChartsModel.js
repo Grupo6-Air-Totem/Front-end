@@ -116,7 +116,31 @@ ORDER BY h.idHistorico DESC;`
 return database.executar(instrucaoSQL);
 }
 
+function listarDadosRede(idTotem,idEmpresa){
+    var instrucaoSQL = `SELECT TOP 1 h.idHistorico as ID_HISTORICO, h.velocidadeRede as VELOCIDADE_REDE, e.idEmpresa 
+FROM totem as t 
+JOIN historico as h ON h.fk_totem = t.idTotem 
+JOIN empresa as e ON t.fk_empresa = e.idEmpresa 
+WHERE t.idTotem = '${idTotem}'
+  AND e.idEmpresa = '${idEmpresa}'
+ORDER BY h.idHistorico DESC;`
 
+return database.executar(instrucaoSQL);
+
+}
+
+function listarDadosDisco(idTotem,idEmpresa){
+    var instrucaoSQL = `
+SELECT TOP 1 hd.idHistoricoDisco as ID_HISTORICO_DISCO, hd.porcentDisponivel as DISPONIVEL, e.idEmpresa 
+FROM totem as t 
+JOIN historicoDisco as hd ON hd.fk_totem = t.idTotem 
+JOIN empresa as e ON t.fk_empresa = e.idEmpresa 
+WHERE t.idTotem = '${idTotem}'
+  AND e.idEmpresa = '${idEmpresa}'
+ORDER BY hd.idHistoricoDisco DESC;`
+
+return database.executar(instrucaoSQL);
+}
 
 function atualizarStatusAtivo(idTotem, novoStatus, campoData) {
     var instrucaoSQL = `
@@ -134,5 +158,7 @@ module.exports = {
     inserirStatusManutencao,
     atualizarStatusManutencao,
     listarDadosCPU,
+    listarDadosRede,
+    listarDadosDisco,
     atualizarStatusAtivo
 };

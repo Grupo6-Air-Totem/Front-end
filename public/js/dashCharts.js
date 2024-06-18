@@ -1,10 +1,14 @@
 google.charts.load('current', {'packages':['gauge']});
 google.charts.setOnLoadCallback(plotarDashCPU);
+google.charts.setOnLoadCallback(plotarDashRede);
+google.charts.setOnLoadCallback(plotarDashDisco);
+
 
 window.onload = function (){
     dadosTotem();
     obterDadosKPIGeral();
-    // Attach event listeners to buttons
+    
+    
     document.getElementById('tirarManutencaoBtn').addEventListener('click', function() {
         updateMaintenanceStatus('remover');
     });
@@ -152,74 +156,177 @@ function updateMaintenanceStatus(action) {
 }
 
 function plotarDashCPU() {
-  debugger
+  var idEmpresa = sessionStorage.ID_EMPRESA;
+  var idTotem = sessionStorage.ID_TOTEM;
+  var url = `http://localhost:8080/dashChartsRoute/listarDadosCPU/${idTotem}/${idEmpresa}`;
+
+  var dataCpu = new google.visualization.DataTable();
+  dataCpu.addColumn('number', 'Id historico'); // ou 'number' se ID_HISTORICO for numérico
+  dataCpu.addColumn('number', '% Uso');
+
+  var options = {
+      hAxis: {
+          title: '60 seconds',
+          titleTextStyle: { italic: false, fontSize: 15, alignment: 'center' },
+          gridlines: {
+              color: 'transparent'
+          }
+      },
+      vAxis: {
+          titleTextStyle: { italic: false, fontSize: 15 }
+      },
+      series: {
+          0: {
+              color: 'orange'
+          },
+      },
+      title: "Cpu",
+      titleTextStyle: {
+          fontSize: 28
+      },
+      legend: { fontSize: 10, position: 'labeled' },
+      chartArea: {
+          backgroundColor: { strokeWidth: 2 }
+      }
+  };
+
+  var chart = new google.visualization.AreaChart(document.getElementById('CPUchart_div'));
+
+  function atualizarDados() {
+      $.ajax({
+          dataType: "json",
+          url: url,
+          async: true,
+          success: function(data) {
+              var newRows = [];
+              for (var i = 0; i < data.length; i++) {
+                  newRows.push([data[i].ID_HISTORICO, data[i].USO_CPU]);
+              }
+              dataCpu.addRows(newRows);
+              chart.draw(dataCpu, options);
+          }
+      });
+  }
+
+  // Atualiza os dados a cada 5 segundos
+  setInterval(atualizarDados, 5000);
+
+  // Desenha o gráfico pela primeira vez
+  atualizarDados();
+}
+
+function plotarDashRede() {
+  var idEmpresa = sessionStorage.ID_EMPRESA;
+  var idTotem = sessionStorage.ID_TOTEM;
+  var url = `http://localhost:8080/dashChartsRoute/listarDadosRede/${idTotem}/${idEmpresa}`;
+
+  var dataRede = new google.visualization.DataTable();
+  dataRede.addColumn('number', 'Id historico'); // ou 'number' se ID_HISTORICO for numérico
+  dataRede.addColumn('number', 'Mbps');
+
+  var options = {
+      hAxis: {
+          title: '60 seconds',
+          titleTextStyle: { italic: false, fontSize: 15, alignment: 'center' },
+          gridlines: {
+              color: 'transparent'
+          }
+      },
+      vAxis: {
+          titleTextStyle: { italic: false, fontSize: 15 }
+      },
+      series: {
+          0: {
+              color: 'blue'
+          },
+      },
+      title: "Rede",
+      titleTextStyle: {
+          fontSize: 28
+      },
+      legend: { fontSize: 10, position: 'labeled' },
+      chartArea: {
+          backgroundColor: { strokeWidth: 2 }
+      }
+  };
+
+  var chart = new google.visualization.AreaChart(document.getElementById('Redechart_div'));
+
+  function atualizarDados() {
+      $.ajax({
+          dataType: "json",
+          url: url,
+          async: true,
+          success: function(data) {
+              var newRows = [];
+              for (var i = 0; i < data.length; i++) {
+                  newRows.push([data[i].ID_HISTORICO, data[i].VELOCIDADE_REDE]);
+              }
+              dataRede.addRows(newRows);
+              chart.draw(dataRede, options);
+          }
+      });
+  }
+
+  // Atualiza os dados a cada 5 segundos
+  setInterval(atualizarDados, 5000);
+
+  // Desenha o gráfico pela primeira vez
+  atualizarDados();
+}
+
+function plotarDashDisco(){
     var idEmpresa = sessionStorage.ID_EMPRESA;
     var idTotem = sessionStorage.ID_TOTEM;
-    var url =  `http://localhost:8080/dashChartsRoute/listarDadosCPU/${idTotem}/${idEmpresa}`
+    var url = `http://localhost:8080/dashChartsRoute/listarDadosDisco/${idTotem}/${idEmpresa}`;
   
-    var jsonData = $.ajax({
-      dataType: "json",
-      url : url,
-      async: false
-    }).responseText
-
-    var data = JSON.parse(jsonData);
-    console.log(data);
-
-
-        // Cria a DataTable do Google Charts com os dados recebidos
-        var dataCpu = new google.visualization.DataTable();
+    var dataDisco = new google.visualization.DataTable();
+    dataDisco.addColumn('number', 'Disponível'); // ou 'number' se ID_HISTORICO for numérico
+    dataDisco.addColumn('number', 'Usando');
   
-        // Adiciona colunas à DataTable
-        dataCpu.addColumn('number', 'Id historico'); // ou 'number' se ID_HISTORICO for numérico
-        dataCpu.addColumn('number', '% Uso');
+    var options = {
+        title: 'Disco',
+        titleTextStyle: {
+          fontSize: 16,
+          textPosition: 'center'
+        },
+        legend: { textStyle: { fontSize: 14,},  position: 'right' },
+        backgroundColor: { fill:'transparent' },
+        pieHole: 0.87,
+        chartArea:{
+          height:'70%',
+          width: '90%'
+          
+        },
+        colors:['#00FF00','#FFFF00'],
+        pieSliceTextStyle: {
+          color: 'black',
+        }
+      };
   
-        // Adiciona uma linha à DataTable
-        // dataCpu.addRows([
-        //   [0, 0]
-        //   [1, data[0].USO_CPU]
-        // ]);
-
-        dataCpu.addRows([
-          [0, 0],   [1, 10],  [2, 23],  [3, 17],  [4, 18],  [5, 9],
-          [6, 11],  [7, 27],  [8, 33],  [9, 40],  [10, 32], [11, 35],
-          [12, 30], [13, 40], [14, 42], [15, 47], [16, 44], [17, 48],
-          [18, 52], [19, 54], [20, 42], [21, 55], [22, 56], [23, 57],
-          [24, 60], [25, 50], [26, 52], [27, 51], [28, 49], [29, 53],
-          [30, 55], [31, 60], [32, 61], [33, 59], [34, 62], [35, 65]
-          ]);
+    var chart = new google.visualization.PieChart(document.getElementById('DiscChart_div'));
   
-        // Define as opções do gráfico
-        var options = {
-                    hAxis: {
-                      title: '60seconds',
-                      titleTextStyle: {italic: false, fontSize: 15,  alignment: 'center'},
-                      gridlines:{
-                        color: 'transparent'
-                      }
-                    },
-                    vAxis: {
-                      titleTextStyle: {italic: false , fontSize: 15}
-                    },
-                    series: {
-                      0: {
-                        color: 'orange' 
-                      },
-                    },
-                      title: "Cpu",
-                      titleTextStyle: {
-                      fontSize: 28
-            },
-            legend: {fontSize: 10, position: 'labeled'},
-            chartArea: {
-              backgroundColor: {strokeWidth: 2}
+    function atualizarDados() {
+        $.ajax({
+            dataType: "json",
+            url: url,
+            async: true,
+            success: function(data) {
+                var newRows = [];
+                for (var i = 0; i < data.length; i++) {
+                    newRows.push([data[i].DISPONIVEL, 100 - data[i].DISPONIVEL]);
+                }
+                dataDisco.addRows(newRows);
+                chart.draw(dataDisco, options);
             }
-          };
+        });
+    }
   
-        // Cria o gráfico de área do Google Charts
-        debugger
-        var documento = document.getElementById('CPUchart_div');
-        var chart = new google.visualization.AreaChart(documento);
-        chart.draw(dataCpu, options);
+    // Atualiza os dados a cada 5 segundos
+    setInterval(atualizarDados, 5000);
+  
+    // Desenha o gráfico pela primeira vez
+    atualizarDados();
 }
+
   

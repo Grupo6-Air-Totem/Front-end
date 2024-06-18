@@ -752,3 +752,16 @@ background-color: #E9EBF0;
 
 }
 
+.textosStatus{
+
+    width: 100%;
+    text-align: justify;
+    font-size: 10px;
+    padding: 5px;
+
+}
+
+.textosStatus strong{
+    font-size: 12px;
+}
+

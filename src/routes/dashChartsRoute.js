@@ -15,5 +15,12 @@ router.get('/listarDadosCPU/:idTotem/:idEmpresa', function(req,res){
     dashChartsController.listarDadosCPU(req,res);
 })
 
+router.get('/listarDadosRede/:idTotem/:idEmpresa', function(req,res){
+    dashChartsController.listarDadosRede(req,res);
+})
+
+router.get('/listarDadosDisco/:idTotem/:idEmpresa', function(req,res){
+    dashChartsController.listarDadosDisco(req,res);
+})
 
 module.exports = router;

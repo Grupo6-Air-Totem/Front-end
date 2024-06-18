@@ -8,9 +8,14 @@ google.charts.setOnLoadCallback(plotarDashRede);
 window.onload = function () {
     obterDadosKpis(),
     obterDadosTabelaManutencao(),
+    atualizarTabelaTotem(),
     obterDadosTabelaTotem(),
     validarSessaoTerminal();
   };
+
+  setInterval(obterDadosTabelaTotem, 3000);
+  setInterval(obterDadosKpis, 5000);
+  // setInterval(obterDadosTabelaManutencao, 5000);
   
   function obterDadosTabelaTotem() {
     var idEmpresa = sessionStorage.ID_EMPRESA;
@@ -32,17 +37,24 @@ window.onload = function () {
       });
   }
   
+  function limparTabelaTotem() {
+    const tabela = document.querySelector(".table-Totens");
+    while (tabela.rows.length > 1) { // Mantém o cabeçalho da tabela
+      tabela.deleteRow(1);
+    }
+  }
+
   function plotarTableTotem(resposta) {
     console.log("Iniciando plotagem da tabela...");
   
-    // console.log("Dados recebidos: ", JSON.stringify(resposta));
+    // Limpa a tabela antes de plotar novos dados
+    limparTabelaTotem();
   
     let clickedValue = "";
   
     const tabela = document.querySelector(".table-Totens");
   
     resposta.forEach((totens) => {
-  
       const novaLinha = document.createElement("tr");
       const tdIdTotem = document.createElement("td");
       const tdCPU = document.createElement("td");
@@ -50,26 +62,23 @@ window.onload = function () {
       const tdMemoria = document.createElement("td");
       const tdRede = document.createElement("td");
   
-      tdCPU.textContent = totens.USO_PROCESSADOR+ "%";
+      tdCPU.textContent = totens.USO_PROCESSADOR + "%";
       tdDisco.textContent = totens.DISCO_DISPONIVEL + "%";
       tdMemoria.textContent = totens.USO_MEMORIA + "";
       tdRede.textContent = totens.VELOCIDADE_REDE + " Mbps";
-
-
+  
       const IDLink = document.createElement("a");
       IDLink.href = "#";
       IDLink.innerText = totens.ID_TOTEM;
   
       IDLink.setAttribute("name", "linkTotem");
-  
       IDLink.setAttribute("data-id", totens.ID_TOTEM);
       IDLink.addEventListener("click", function (event) {
         event.preventDefault();
         clickedValue = this.getAttribute("data-id");
-        if(sessionStorage.NIVEL_ACESSO == "Suporte"){
+        if (sessionStorage.NIVEL_ACESSO == "Suporte") {
           autenticarTotem(clickedValue);
         }
-
       });
       tdIdTotem.appendChild(IDLink);
       novaLinha.appendChild(tdIdTotem);
@@ -80,145 +89,137 @@ window.onload = function () {
   
       tabela.appendChild(novaLinha);
     });
-    // setTimeout(() => atualizarTabela(),50000);
   }
-  
+
+
   function atualizarTabelaTotem() {
-    let proximaAtualizacao;
-    var idTerminal = sessionStorage.ID_TERMINAL;
-    fetch(`/dashSuporteRoute/listarTotemStatus/${idTerminal}`, { cache: "no-store" })
-      .then(function (response) {
-        if (response.ok) {
-          response.json().then(function (novoRegistro) {
-            obterDadosTabelaTotem();
-            console.log(`Dados recebidos:${JSON.stringify(novoRegistro)}`);
-            console.log(`Dados atuais da tabela: `);
-            console.log(`${totens}`);
-  
-            if (
-              novoRegistro[0].PercentualCPU == totens.PercentualCPU &&
-              novoRegistro[0].PercentualDisco == totens.PercentualDisco &&
-              novoRegistro[0].PercentualMemoria == totens.PercentualMemoria &&
-              novoRegistro[0].VelocidadeRede == totens.VelocidadeRede 
-            )
-              console.log("Não há dados para alterar!");
-            else {
-  
-              totens.PercentualCPU.textContent += totens.PercentualCPU;
-              totens.PercentualDisco.textContent += novoRegistro.PercentualDisco;
-              totens.PercentualMemoria.textContent += novoRegistro.PercentualMemoria;
-              totens.VelocidadeRede.textContent += novoRegistro.VelocidadeRede;
-            }
-            proximaAtualizacao = setTimeout(() => atualizarTabelaTotem(), 50000);
-          });
-        } else {
-          console.error("Nenhum dado encontrado ou erro na API");
-          proximaAtualizacao = setTimeout(() => atualizarTabelaTotem(), 50000);
-        }
-      })
-      .catch(function (error) {
-        console.error(`Erro na obtenção dos dados p/tabela: ${error.message}`);
-      });
+  var idEmpresa = sessionStorage.ID_EMPRESA;
+  var idTerminal = sessionStorage.ID_TERMINAL;
+  fetch(`/dashSuporteRoute/listarTotemStatus/${idTerminal}/${idEmpresa}`, { cache: "no-store" })
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (novoRegistro) {
+          console.log(`Dados recebidos:${JSON.stringify(novoRegistro)}`);
+          limparTabelaTotem();
+          plotarTableTotem(novoRegistro);
+          // Atualiza a tabela a cada 50 segundos
+          setTimeout(atualizarTabelaTotem, 50000);
+        });
+      } else {
+        console.error("Nenhum dado encontrado ou erro na API");
+        setTimeout(atualizarTabelaTotem, 50000);
+      }
+    })
+    .catch(function (error) {
+      console.error(`Erro na obtenção dos dados p/tabela: ${error.message}`);
+      setTimeout(atualizarTabelaTotem, 50000);
+    });
+}
+
+
+  function obterDadosTabelaManutencao() {
+
+  var idEmpresa = sessionStorage.ID_EMPRESA;
+  var idTerminal = sessionStorage.ID_TERMINAL;
+  fetch(`/dashSuporteRoute/listarStatusManutencao/${idTerminal}/${idEmpresa}`, { cache: "no-store" })
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (resposta) {
+          console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
+          plotarTableManutencao(resposta);
+
+          // Após plotar a tabela inicialmente, inicia a atualização periódica
+          atualizarTabelaManutencao();
+        });
+      } else {
+        console.error("Nenhum dado encontrado ou erro na API");
+      }
+    })
+    .catch(function (error) {
+      console.error(`Erro na obtenção dos dados p/gráficos: ${error.message}`);
+    });
   }
+  let ultimosDadosRecebidos = []; // Variável global para armazenar os últimos dados recebidos
 
-  function obterDadosTabelaManutencao(){
-    var idEmpresa = sessionStorage.ID_EMPRESA;
-    var idTerminal = sessionStorage.ID_TERMINAL;
-    fetch(`/dashSuporteRoute/listarStatusManutencao/${idTerminal}/${idEmpresa}`, { cache: "no-store" })
-      .then(function (response) {
-        if (response.ok) {
-          response.json().then(function (resposta) {
-            console.log(`Dados recebidos: ${JSON.stringify(resposta)}`);
-  
-            plotarTableManutencao(resposta);
-          });
-        } else {
-          console.error("Nenhum dado encontrado ou erro na API");
-        }
-      })
-      .catch(function (error) {
-        console.error(`Erro na obtenção dos dados p/gráficos: ${error.message}`);
-      });
-  }
-
-  function plotarTableManutencao(resposta){
-
+  function plotarTableManutencao(resposta) {
     console.log("Iniciando plotagem da tabela...");
-  
-    console.log("Dados recebidos: ", JSON.stringify(resposta));
-  
-    let clickedValue = "";
   
     const tabela = document.querySelector(".table-manutencao");
   
-    resposta.forEach((manutencao) => {
+    // Limpa a tabela antes de adicionar novas linhas
   
-
+    resposta.forEach((manutencao) => {
       const novaLinha = document.createElement("tr");
       const tdIdTotem = document.createElement("td");
-      const tdColocadoManutencao = document.createElement("td")
+      const tdColocadoManutencao = document.createElement("td");
       const tdStatus = document.createElement("td");
+      tdIdTotem.innerHTML = "";
+      tdColocadoManutencao.innerHTML = "";
+      tdStatus.innerHTML = "";
   
-      // tdIdTotem.textContent = manutencao.ID_TOTEM;
-      tdColocadoManutencao.textContent = manutencao.ENTRADA_MANU;
-      tdStatus.textContent = manutencao.STATUS_TOTEM;
-
       const IDLink = document.createElement("a");
       IDLink.href = "#";
       IDLink.innerText = manutencao.ID_TOTEM;
-  
-      IDLink.setAttribute("name", "linkTotem");
-  
       IDLink.setAttribute("data-id", manutencao.ID_TOTEM);
       IDLink.addEventListener("click", function (event) {
         event.preventDefault();
-        clickedValue = this.getAttribute("data-id");
-        if(sessionStorage.NIVEL_ACESSO == "Suporte"){
+        const clickedValue = this.getAttribute("data-id");
+        if (sessionStorage.NIVEL_ACESSO == "Suporte") {
           autenticarTotem(clickedValue);
         }
-
       });
+  
       tdIdTotem.appendChild(IDLink);
       novaLinha.appendChild(tdIdTotem);
+  
+      tdColocadoManutencao.textContent = manutencao.ENTRADA_MANU;
       novaLinha.appendChild(tdColocadoManutencao);
+  
+      tdStatus.textContent = manutencao.STATUS_TOTEM;
       novaLinha.appendChild(tdStatus);
   
       tabela.appendChild(novaLinha);
     });
-    // setTimeout(() => atualizarTabela(),50000);
-
-
+  
+    // Atualiza a variável global com os novos dados recebidos
+    ultimosDadosRecebidos = resposta;
   }
-
+  
   function atualizarTabelaManutencao() {
-    let proximaAtualizacao;
     var idTerminal = sessionStorage.ID_TERMINAL;
     fetch(`/dashSuporteRoute/listarStatusManutencao/${idTerminal}`, { cache: "no-store" })
       .then(function (response) {
         if (response.ok) {
           response.json().then(function (novoRegistro) {
-            obterDadosTabelaManutencao();
-            console.log(`Dados recebidos:${JSON.stringify(novoRegistro)}`);
-            console.log(`Dados atuais da tabela: `);
-            console.log(`${termais}`);
+            console.log(`Dados recebidos: ${JSON.stringify(novoRegistro)}`);
   
-            if (
-              novoRegistro[0].idTotem == termais.idTotem &&
-              novoRegistro[0].DiaHr == totens.DiaHr &&
-              novoRegistro[0].StatusTotem == totens.StatusTotem 
-            )
-              console.log("Não há dados para alterar!");
-            else {
+            const linhasTabela = document.querySelectorAll(".table-manutencao tr");
+            linhasTabela.forEach((linha) => {
+              const idTotem = linha.querySelector("a").getAttribute("data-id");
   
-              termais.idTotem.textContent += termais.idTotem;
-              termais.DiaHr.textContent += termais.DiaHr;
-              termais.StatusTotem.textContent += termais.StatusTotem;
-            }
-            proximaAtualizacao = setTimeout(() => atualizarTabelaManutencao(), 50000);
+              // Encontra o registro correspondente na resposta atualizada
+              const registroAtualizado = novoRegistro.find(registro => registro.ID_TOTEM === idTotem);
+              if (registroAtualizado) {
+                // Verifica se os dados são diferentes antes de atualizar
+                const indice = ultimosDadosRecebidos.findIndex(dado => dado.ID_TOTEM === idTotem);
+                if (JSON.stringify(ultimosDadosRecebidos[indice]) !== JSON.stringify(registroAtualizado)) {
+                  linha.children[1].textContent = registroAtualizado.ENTRADA_MANU;
+                  linha.children[2].textContent = registroAtualizado.STATUS_TOTEM;
+                }
+              }
+            });
+  
+            // Atualiza a variável global com os novos dados recebidos
+            ultimosDadosRecebidos = novoRegistro;
+  
+            // Limpa o temporizador anterior antes de agendar um novo
+            clearTimeout(timerAtualizacao);
+  
+            // Agendando próxima atualização
+            timerAtualizacao = setTimeout(atualizarTabelaManutencao, 50000);
           });
         } else {
           console.error("Nenhum dado encontrado ou erro na API");
-          proximaAtualizacao = setTimeout(() => atualizarTabelaManutencao(), 50000);
         }
       })
       .catch(function (error) {
@@ -226,12 +227,12 @@ window.onload = function () {
       });
   }
 
-  async function obterDadosKpis() {
+function obterDadosKpis() {
   var idEmpresa = sessionStorage.ID_EMPRESA;
   var idTerminal = sessionStorage.ID_TERMINAL;
   console.log("idEmpresaaa",idEmpresa);
   console.log("idTerminal: ", idTerminal);
-    await fetch(`/dashSuporteRoute/listarDadosKpis/${idTerminal}/${idEmpresa}`, { cache: "no-store" })
+    fetch(`/dashSuporteRoute/listarDadosKpis/${idTerminal}/${idEmpresa}`, { cache: "no-store" })
     .then(function (resposta){
       if(resposta.ok){
         console.log(resposta);
@@ -289,7 +290,7 @@ window.onload = function () {
     progressBarWarning.style.width = `${parado}%`;
     progressBarWarning.textContent = `${parado.toFixed(1)}%`;
       })
-}
+  }
   
   function plotarDashCPU(){ 
     var idEmpresa = sessionStorage.ID_EMPRESA;
