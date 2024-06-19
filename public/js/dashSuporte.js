@@ -64,7 +64,7 @@ window.onload = function () {
   
       tdCPU.textContent = totens.USO_PROCESSADOR + "%";
       tdDisco.textContent = totens.DISCO_DISPONIVEL + "%";
-      tdMemoria.textContent = totens.USO_MEMORIA + "";
+      tdMemoria.textContent = totens.USO_MEMORIA + "%";
       tdRede.textContent = totens.VELOCIDADE_REDE + " Mbps";
   
       const IDLink = document.createElement("a");

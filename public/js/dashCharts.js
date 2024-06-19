@@ -1,4 +1,5 @@
 google.charts.load('current', {'packages':['gauge']});
+google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(plotarDashCPU);
 google.charts.setOnLoadCallback(plotarDashRede);
 google.charts.setOnLoadCallback(plotarDashDisco);
@@ -275,34 +276,36 @@ function plotarDashRede() {
   atualizarDados();
 }
 
-function plotarDashDisco(){
+function plotarDashDisco() {
     var idEmpresa = sessionStorage.ID_EMPRESA;
     var idTotem = sessionStorage.ID_TOTEM;
     var url = `http://localhost:8080/dashChartsRoute/listarDadosDisco/${idTotem}/${idEmpresa}`;
   
     var dataDisco = new google.visualization.DataTable();
-    dataDisco.addColumn('number', 'Disponível'); // ou 'number' se ID_HISTORICO for numérico
-    dataDisco.addColumn('number', 'Usando');
+    dataDisco.addColumn('string', 'Categoria');
+    dataDisco.addColumn('number', 'Valor');
   
     var options = {
         title: 'Disco',
         titleTextStyle: {
-          fontSize: 16,
-          textPosition: 'center'
+            fontSize: 16,
+            textPosition: 'center'
         },
-        legend: { textStyle: { fontSize: 14,},  position: 'right' },
-        backgroundColor: { fill:'transparent' },
+        legend: {
+            textStyle: { fontSize: 14 },
+            position: 'bottom'
+        },
+        backgroundColor: { fill: 'transparent' },
         pieHole: 0.87,
-        chartArea:{
-          height:'70%',
-          width: '90%'
-          
+        chartArea: {
+            height: '70%',
+            width: '90%'
         },
-        colors:['#00FF00','#FFFF00'],
+        colors: ['#00FF00', '#FFFF00'],
         pieSliceTextStyle: {
-          color: 'black',
+            color: 'black'
         }
-      };
+    };
   
     var chart = new google.visualization.PieChart(document.getElementById('DiscChart_div'));
   
@@ -314,8 +317,10 @@ function plotarDashDisco(){
             success: function(data) {
                 var newRows = [];
                 for (var i = 0; i < data.length; i++) {
-                    newRows.push([data[i].DISPONIVEL, 100 - data[i].DISPONIVEL]);
+                    newRows.push(['Disponível', data[i].DISPONIVEL]);
+                    newRows.push(['Usando', 100 - data[i].DISPONIVEL]); // Considerando que o total é 100%
                 }
+                dataDisco.removeRows(0, dataDisco.getNumberOfRows()); // Remove linhas antigas
                 dataDisco.addRows(newRows);
                 chart.draw(dataDisco, options);
             }
@@ -328,5 +333,3 @@ function plotarDashDisco(){
     // Desenha o gráfico pela primeira vez
     atualizarDados();
 }
-
-  
