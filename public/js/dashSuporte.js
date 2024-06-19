@@ -8,13 +8,12 @@ google.charts.setOnLoadCallback(plotarDashRede);
 window.onload = function () {
     obterDadosKpis(),
     obterDadosTabelaManutencao(),
-    atualizarTabelaTotem(),
     obterDadosTabelaTotem(),
     validarSessaoTerminal();
   };
 
   setInterval(obterDadosTabelaTotem, 3000);
-  setInterval(obterDadosKpis, 5000);
+  // setInterval(obterDadosKpis, 5000);
   // setInterval(obterDadosTabelaManutencao, 5000);
   
   function obterDadosTabelaTotem() {
@@ -91,7 +90,6 @@ window.onload = function () {
     });
   }
 
-
   function atualizarTabelaTotem() {
   var idEmpresa = sessionStorage.ID_EMPRESA;
   var idTerminal = sessionStorage.ID_TERMINAL;
@@ -99,7 +97,7 @@ window.onload = function () {
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (novoRegistro) {
-          console.log(`Dados recebidos:${JSON.stringify(novoRegistro)}`);
+          console.log(`Dados recebidos:${novoRegistro}`);
           limparTabelaTotem();
           plotarTableTotem(novoRegistro);
           // Atualiza a tabela a cada 50 segundos
@@ -115,7 +113,6 @@ window.onload = function () {
       setTimeout(atualizarTabelaTotem, 50000);
     });
 }
-
 
   function obterDadosTabelaManutencao() {
 
@@ -139,6 +136,7 @@ window.onload = function () {
       console.error(`Erro na obtenção dos dados p/gráficos: ${error.message}`);
     });
   }
+
   let ultimosDadosRecebidos = []; // Variável global para armazenar os últimos dados recebidos
 
   function plotarTableManutencao(resposta) {
@@ -227,17 +225,14 @@ window.onload = function () {
       });
   }
 
-function obterDadosKpis() {
+  function obterDadosKpis() {
   var idEmpresa = sessionStorage.ID_EMPRESA;
   var idTerminal = sessionStorage.ID_TERMINAL;
-  console.log("idEmpresaaa",idEmpresa);
-  console.log("idTerminal: ", idTerminal);
     fetch(`/dashSuporteRoute/listarDadosKpis/${idTerminal}/${idEmpresa}`, { cache: "no-store" })
     .then(function (resposta){
       if(resposta.ok){
-        console.log(resposta);
+        console.log("Dados KPIs: " + resposta);
         resposta.json().then((jsonResp) =>{
-          console.log("chegou aqui")
           if(jsonResp.length > 0){
             sessionStorage.ID_TERMINAL = jsonResp[0].idTerminal;
             sessionStorage.TOTAL_TOTEM_TER = jsonResp[0].TOTAL_TOTENS;
@@ -302,8 +297,7 @@ function obterDadosKpis() {
     }).responseText;
 
     var data = JSON.parse(jsonData);
-    console.log(data);
-
+    console.log("Dados dash CPU: " + data);
     var dataCpu = new google.visualization.DataTable();
     dataCpu.addColumn('string', 'Status');
     dataCpu.addColumn('number', 'Quantidade');
@@ -348,8 +342,7 @@ function obterDadosKpis() {
     }).responseText;
 
     var data = JSON.parse(jsonData);
-    console.log(data);
-
+    console.log("Dados dash memoria: " + data);
     var dataMemoria = new google.visualization.DataTable();
     dataMemoria.addColumn('string', 'Status');
     dataMemoria.addColumn('number', 'Quantidade');
@@ -388,7 +381,6 @@ function obterDadosKpis() {
   function plotarDashRede(){
     var idTerminal = sessionStorage.ID_TERMINAL;
     var idEmpresa = sessionStorage.ID_EMPRESA;
-    debugger
     var jsonData = $.ajax({
       url: `http://localhost:8080/dashSuporteRoute/listarDadosRede/${idTerminal}/${idEmpresa}`,
       dataType: "json",
@@ -396,7 +388,7 @@ function obterDadosKpis() {
     }).responseText;
 
     var data = JSON.parse(jsonData);
-    console.log(data);
+    console.log("Dados dash rede:" + data);
 
     var dataRede = new google.visualization.DataTable();
     dataRede.addColumn('string', 'Status');
@@ -433,11 +425,8 @@ function obterDadosKpis() {
   }
 
   function autenticarTotem(idTotem){
-    console.log("ID TOTEM: ", idTotem);
     var idEmpresa = sessionStorage.ID_EMPRESA;
     var idTerminal = sessionStorage.ID_TERMINAL;
-    console.log("ID EMPRESA: ", idEmpresa);
-    console.log("ID TERMINAL: ", idTerminal);
   fetch(`/dashSuporteRoute/autenticarTotem/${idTotem}/${idEmpresa}/${idTerminal}`, {
     method: "POST",
     headers: {

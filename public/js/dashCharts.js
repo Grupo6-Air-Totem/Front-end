@@ -197,7 +197,6 @@ function plotarDashCPU() {
       $.ajax({
           dataType: "json",
           url: url,
-          async: true,
           success: function(data) {
               var newRows = [];
               for (var i = 0; i < data.length; i++) {
@@ -257,7 +256,6 @@ function plotarDashRede() {
       $.ajax({
           dataType: "json",
           url: url,
-          async: true,
           success: function(data) {
               var newRows = [];
               for (var i = 0; i < data.length; i++) {
@@ -280,7 +278,9 @@ function plotarDashDisco() {
     var idEmpresa = sessionStorage.ID_EMPRESA;
     var idTotem = sessionStorage.ID_TOTEM;
     var url = `http://localhost:8080/dashChartsRoute/listarDadosDisco/${idTotem}/${idEmpresa}`;
-  
+    
+    var totalGB = 500; // Defina o valor total da capacidade do disco em GB
+
     var dataDisco = new google.visualization.DataTable();
     dataDisco.addColumn('string', 'Categoria');
     dataDisco.addColumn('number', 'Valor');
@@ -313,12 +313,13 @@ function plotarDashDisco() {
         $.ajax({
             dataType: "json",
             url: url,
-            async: true,
             success: function(data) {
                 var newRows = [];
                 for (var i = 0; i < data.length; i++) {
-                    newRows.push(['Disponível', data[i].DISPONIVEL]);
-                    newRows.push(['Usando', 100 - data[i].DISPONIVEL]); // Considerando que o total é 100%
+                    var disponivelGB = (data[i].DISPONIVEL / 100) * totalGB;
+                    var usandoGB = totalGB - disponivelGB;
+                    newRows.push(['Disponível (GB)', disponivelGB]);
+                    newRows.push(['Usando (GB)', usandoGB]);
                 }
                 dataDisco.removeRows(0, dataDisco.getNumberOfRows()); // Remove linhas antigas
                 dataDisco.addRows(newRows);

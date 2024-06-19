@@ -81,7 +81,7 @@ function validarSessaoTerminal(){
 
     empresa.innerHTML = sessionStorage.NOME_EMPRESA;
     spanTerminal.innerHTML = "Terminal " + terminal;
-    qtdTotalTerminal.innerHTML = totalTerminal;
+    qtdTotalTerminal.innerHTML = sessionStorage.TOTAL_TOTEM_TER;
     // qtdTotalAtivo.innerHTML = totalAtivo;
     // qtdTotalInativo.innerHTML = totalInativo;
     // qtdTotalTerminal.innerHTML = totalTerminal;
